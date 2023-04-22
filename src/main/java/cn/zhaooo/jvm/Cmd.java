@@ -6,6 +6,8 @@ import com.beust.jcommander.Parameter;
 import java.util.List;
 
 public class Cmd {
+    @Parameter(names = "-Xjre", description = "path to jre", order = 4)
+    String jre;
 
     // order to show help info
     @Parameter(names = {"-?", "-help"}, description = "print help message", order = 3, help = true)
