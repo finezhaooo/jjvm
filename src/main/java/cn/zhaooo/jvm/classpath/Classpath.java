@@ -14,20 +14,28 @@ import java.nio.file.Paths;
 public class Classpath {
 
     // The three different entries that make up the classpath
+    // 启动类路径
     private Entry bootstrapClasspath;
+    //  扩展类路径
     private Entry extensionClasspath;
+    //  用户类路径
     private Entry userClasspath;
 
-    // Constructor that initializes the bootstrap, extension, and user classpaths
+    /**
+     * -Xjre选项解析启动类路径和扩展类路径，-classpath/-cp选项解析用户类路径
+     */
     public Classpath(String jreOption, String cpOption) {
         // Initialize the bootstrap and extension classpaths
         // "C:\Program Files\Java\jdk1.8.0_161\jre"
         bootstrapAndExtensionClasspath(jreOption);
         // Initialize the user-defined classpath
-        // E:\..\org\itstack\demo\test\HelloWorld
+        // .\test\HelloWorld
         parseUserClasspath(cpOption);
     }
 
+    /**
+     * 解析启动类路径和扩展类路径
+     */
     private void bootstrapAndExtensionClasspath(String jreOption) {
         String jreDir = getJreDir(jreOption);
 
@@ -38,9 +46,11 @@ public class Classpath {
         //..jre/lib/ext/*
         String jreExtPath = Paths.get(jreDir, "lib", "ext") + File.separator + "*";
         extensionClasspath = new WildcardEntry(jreExtPath);
-
     }
 
+    /**
+     * 获取jre目录
+     */
     private static String getJreDir(String jreOption) {
         if (jreOption != null && Files.exists(Paths.get(jreOption))) {
             return jreOption;
@@ -58,7 +68,11 @@ public class Classpath {
         throw new RuntimeException("Can not find JRE folder!");
     }
 
+    /**
+     * 解析用户类路径
+     */
     private void parseUserClasspath(String cpOption) {
+        //  如果用户没有提供-classpath/-cp选项，则使用当前目录作为用户类路径
         if (cpOption == null) {
             cpOption = ".";
         }
@@ -66,6 +80,9 @@ public class Classpath {
         userClasspath = Entry.create(cpOption);
     }
 
+    /**
+     * 依次从启动类路径、扩展类路径和用户类路径中搜索class文件并读取
+     */
     public byte[] readClass(String className) throws Exception {
         className = className + ".class";
 

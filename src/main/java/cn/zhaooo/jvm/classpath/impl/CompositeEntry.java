@@ -43,6 +43,9 @@ public class CompositeEntry implements Entry {
     }
 
     // Method to generate a string representation of the CompositeEntry object
+    /**
+     * 获取当前文件夹下所有entry
+     */
     @Override
     public String toString() {
         String[] strs = new String[entryList.size()];

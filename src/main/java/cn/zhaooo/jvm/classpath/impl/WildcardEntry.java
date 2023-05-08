@@ -20,7 +20,12 @@ public class WildcardEntry extends CompositeEntry {
         // Call CompositeEntry constructor with the list of paths generated from the wildcard path
         super(toPathList(path));
     }
-    // Method to generate the list of paths from the wildcard path
+
+    /**
+     * 获取通配符路径下的所有.jar/.JAR文件
+     * @param wildcardPath
+     * @return
+     */
     private static String toPathList(String wildcardPath) {
         // Remove "*" from the wildcard path
         String baseDir = wildcardPath.replace("*", "");
@@ -29,6 +34,7 @@ public class WildcardEntry extends CompositeEntry {
             return Files.walk(Paths.get(baseDir))
                     .filter(Files::isRegularFile)
                     .map(Path::toString)
+                    // 通配符类路径不能递归匹配子目录下的JAR文件
                     .filter(p -> p.endsWith(".jar") || p.endsWith(".JAR"))
                     // Join the paths using the File.pathSeparator
                     .collect(Collectors.joining(File.pathSeparator));

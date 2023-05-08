@@ -15,7 +15,12 @@ import java.io.IOException;
  */
 public interface Entry {
 
-    // bytes of class file
+    /**
+     * 寻找并加载class文件
+     * @param className class文件的相对路径，路径之间用斜线分割，文件名有.class后缀
+     * Entry->className->+.class->readClass->bytes
+     * @return class文件的字节数据
+     */
     byte[] readClass(String className) throws IOException;
 
     // static method in interface
@@ -31,11 +36,9 @@ public interface Entry {
             return new WildcardEntry(path);
         }
 
-        if (path.endsWith(".jar") || path.endsWith(".JAR") ||
-                path.endsWith(".zip") || path.endsWith(".ZIP")) {
+        if (path.endsWith(".jar") || path.endsWith(".JAR") || path.endsWith(".zip") || path.endsWith(".ZIP")) {
             return new ZipEntry(path);
         }
         return new DirEntry(path);
     }
-
 }
