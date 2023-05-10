@@ -5,6 +5,9 @@ import cn.zhaooo.jvm.classfile.constantInfo.ConstantInfo;
 
 /**
  * @description:
+ * 编译时期的常量，编译器会在字节码文件的常量池中保存它的值为 ConstantIntegerInfo，以便在运行时被直接使用。
+ * final修饰的int，或者不存在改变改int的方法，会保在ConstantIntegerInfo中
+ * 普通的实例字段，以字段的形式保存在字段表中，不会出现在常量池中
  * CONSTANT_Interger_info{
  *      u1 tag;
  *      u4 bytes;
