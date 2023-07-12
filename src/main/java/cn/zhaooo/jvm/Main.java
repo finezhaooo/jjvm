@@ -12,7 +12,7 @@ public class Main {
         // Call JCommander.parse
         Cmd cmd = Cmd.parse(args);
         if (!cmd.ok || cmd.helpFlag) {
-            System.out.println("Usage: <main class> [-options] class [args...]");
+            Cmd.jCmd.usage();
             return;
         }
         if (cmd.versionFlag) {

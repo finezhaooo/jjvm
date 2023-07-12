@@ -5,11 +5,14 @@ import com.beust.jcommander.Parameter;
 
 import java.util.List;
 
+/**
+ * cmd
+ * C
+ */
 public class Cmd {
     @Parameter(names = "-Xjre", description = "path to jre", order = 4)
     String jre;
 
-    // order to show help info
     @Parameter(names = {"-?", "-help"}, description = "print help message", order = 3, help = true)
     boolean helpFlag = false;
 
@@ -25,6 +28,8 @@ public class Cmd {
     // successful parse
     boolean ok;
 
+    static JCommander jCmd;
+
     String getMainClass() {
         return mainClassAndArgs != null && !mainClassAndArgs.isEmpty()
                 ? mainClassAndArgs.get(0)
@@ -39,12 +44,11 @@ public class Cmd {
 
     static Cmd parse(String[] argv) {
         Cmd args = new Cmd();
-        JCommander cmd = JCommander.newBuilder().addObject(args).build();
+        jCmd = JCommander.newBuilder().programName("jjvm").addObject(args).build();
         // JCommander.parse
-        cmd.parse(argv);
+        jCmd.parse(argv);
         args.ok = true;
         // return Cmd
         return args;
     }
-
 }
