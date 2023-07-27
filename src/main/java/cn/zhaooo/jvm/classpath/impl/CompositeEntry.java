@@ -10,6 +10,7 @@ import java.util.List;
 /**
  * @author zhaooo3
  * @description: Entry or path mixed in different form
+ * 将对象即Entry组织成树形结构
  * @date 4/21/23 1:57 PM
  */
 public class CompositeEntry implements Entry {

@@ -22,9 +22,8 @@ public class WildcardEntry extends CompositeEntry {
     }
 
     /**
-     * 获取通配符路径下的所有.jar/.JAR文件
-     * @param wildcardPath
-     * @return
+     * 获取通配符路径下的所有.jar/.JAR文件并转变为由pathSeparator连接的String
+     * jre/lib/* 和 jre/lib/ext/* 下包含的源码都是打包为jar
      */
     private static String toPathList(String wildcardPath) {
         // Remove "*" from the wildcard path
@@ -42,5 +41,4 @@ public class WildcardEntry extends CompositeEntry {
             return "";
         }
     }
-
 }

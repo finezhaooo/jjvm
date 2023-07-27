@@ -25,6 +25,7 @@ public interface Entry {
 
     // static method in interface
     // creat different Entry by different path
+    // 递归调用创建
     static Entry create(String path) {
 
         // File.pathSeparator;(win\linux)

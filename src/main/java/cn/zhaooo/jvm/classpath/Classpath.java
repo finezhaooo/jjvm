@@ -8,12 +8,11 @@ import java.nio.file.Paths;
 
 /**
  * @author zhaooo3
- * @description: TODO
+ * @description: Classpath是指Java的运行环境在查找类文件或其他源文件时所使用的路径。Classpath可以包含多个目录、jar文件或zip文件，它们之间用分隔符隔开。
  * @date 4/21/23 2:05 PM
  */
 public class Classpath {
 
-    // The three different entries that make up the classpath
     // 启动类路径
     private Entry bootstrapClasspath;
     //  扩展类路径
@@ -37,8 +36,8 @@ public class Classpath {
      * 解析启动类路径和扩展类路径
      */
     private void bootstrapAndExtensionClasspath(String jreOption) {
+        // jre文件夹根目录 即C:\Program Files\Java\jdk1.8.0_161\jre
         String jreDir = getJreDir(jreOption);
-
         //..jre/lib/*
         String jreLibPath = Paths.get(jreDir, "lib") + File.separator + "*";
         bootstrapClasspath = new WildcardEntry(jreLibPath);
@@ -76,12 +75,14 @@ public class Classpath {
         if (cpOption == null) {
             cpOption = ".";
         }
+        // cpOption可以是文件，文件夹，zip；所以使用Entry.create()
         // create path Entry of current dir or cpOption
         userClasspath = Entry.create(cpOption);
     }
 
     /**
      * 依次从启动类路径、扩展类路径和用户类路径中搜索class文件并读取
+     * 最终都会调用DirEntry或者ZipEntry的readClass方法
      */
     public byte[] readClass(String className) throws Exception {
         className = className + ".class";
