@@ -4,11 +4,13 @@ import java.math.BigInteger;
 
 /**
  * @author zhaooo3
- * @description: TODO
+ * @description: class文件读取器
  * @date 4/23/23 6:20 PM
  */
 public class ClassReader {
-    private byte[] data;
+    // 当前指针
+    private int index;
+    private final byte[] data;
 
     public ClassReader(byte[] data) {
         this.data = data;
@@ -65,10 +67,14 @@ public class ClassReader {
         return readByte(n);
     }
 
+    /**
+     * 依次读取length个byte
+     */
     private byte[] readByte(int length) {
         byte[] copy = new byte[length];
-        System.arraycopy(data, 0, copy, 0, length);
-        System.arraycopy(data, length, data, 0, data.length - length);
+        // 将data的[index,index+length)拷贝到copy
+        System.arraycopy(data, index, copy, 0, length);
+        index += length;
         return copy;
     }
 }

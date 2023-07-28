@@ -54,11 +54,13 @@ public interface ConstantInfo {
                 return new ConstantDoubleInfo();
             case CONSTANT_UTF8:
                 return new ConstantUtf8Info();
+            // 构造方法包含constantPool参数，因为这些数据项包含符号引用，要读取符号引用的具体值需要调用ConstantPool的getXXX方法
             case CONSTANT_STRING:
                 return new ConstantStringInfo(constantPool);
             case CONSTANT_CLASS:
                 return new ConstantClassInfo(constantPool);
             case CONSTANT_FIELDREF:
+            // 只定义一个方法/字段而不引用它（在源码中表现为不访问这个变量），那么在常量池中也不会存在和该字段相对应的数据项
                 return new ConstantFieldrefInfo(constantPool);
             case CONSTANT_METHODREF:
                 return new ConstantMethodrefInfo(constantPool);
@@ -66,10 +68,13 @@ public interface ConstantInfo {
                 return new ConstantInterfaceMethodrefInfo(constantPool);
             case CONSTANT_NAMEANDTYPE:
                 return new ConstantNameAndTypeInfo();
+            // ConstantMethodTypeInfo 类型的常量主要用于与 CONSTANT_MethodHandle_info 类型的常量配合使用，表示方法句柄的类型
             case CONSTANT_METHODTYPE:
                 return new ConstantMethodTypeInfo();
+            // ConstantMethodHandleInfo 表示一个方法句柄，即对一个方法的直接或间接引用
             case CONSTANT_METHODHANDLE:
                 return new ConstantMethodHandleInfo();
+            // ConstantInvokeDynamicInfo 表示一个动态调用点，即对一个动态方法调用的描述
             case CONSTANT_INVOKEDYNAMIC:
                 return new ConstantInvokeDynamicInfo();
             default:
