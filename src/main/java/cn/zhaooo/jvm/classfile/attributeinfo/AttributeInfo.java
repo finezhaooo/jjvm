@@ -75,6 +75,7 @@ public interface AttributeInfo {
             case "Synthetic":
                 return new SyntheticAttribute();
             default:
+            // 解析属性失败
                 return new UnparsedAttribute(attrName, attrLen);
         }
     }

@@ -6,6 +6,9 @@ import cn.zhaooo.jvm.classfile.attributeinfo.AttributeInfo;
 
 /**
  * @description:
+ * Code属性是Class文件中最重要的一个属性，如果把一个Java程序中的信息分为代码（Code，方法体里面的Java代码）
+ * 和元数据（Metadata，包括类、字段、方法定义及其他信息）两部分，那么在整个Class文件里，Code属性用于描述代码，所有的其他数据项目都用于描述元数据。
+ *
  * Code_attribute {
  *  // 该索引处存放CONSTANT_Utf8_info常量项，描述字符串“Code”。
  *  u2 attribute_name_index;

@@ -6,9 +6,9 @@ import cn.zhaooo.jvm.classfile.attributeinfo.AttributeInfo;
 
 /**
  * @description:
- * 签名（Signature)用来编码以Java语言所写的声明，这些声明使用了Java虚拟机类型系统之外的类型。在只能访问class文件的情况下，签名有助于实现反射、调试及编译。
- * 在Java语言中，任何类、接口、构造器方法或字段的声明如果包含了类型变量(type variable)或参数化类型(parameterized type),
- * 则Signature属性会为它记录泛型签名信息
+ * Signature属性在JDK 5增加到Class文件规范之中，它是一个可选的定长属性，可以出现于类、字段表和方法表结构的属性表中。
+ * 在JDK 5里面大幅增强了Java语言的语法，在此之后，任何类、接口、初始化方法或成员的泛型签名如果包含了
+ * 类型变量（Type Variable）或参数化类型（ParameterizedType），则Signature属性会为它记录泛型签名信息。
  * Signature_attribute {
  *  u2 attribute_name_index;
  *  u4 attribute_length;

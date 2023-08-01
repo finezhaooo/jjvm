@@ -5,7 +5,10 @@ import cn.zhaooo.jvm.classfile.attributeinfo.AttributeInfo;
 
 /**
  * @description:
- * 如果一个类成员没有在源文件中出现，则必须标记带有Synthetic属性，或者设置ACC_SYNTHETIC标志。
+ * Synthetic属性代表此字段或者方法并不是由Java源码直接产生的，而是由编译器自行添加的，在JDK 5之后，标识一个类、字段或者方法是编译器自动产生的，
+ * 也可以设置它们访问标志中的ACC_SYNTHETIC标志位。
+ * 所有由不属于用户代码产生的类、方法及字段都应当至少设置Synthetic属性或者ACC_SYNTHETIC标志位中的一项，
+ * 唯一的例外是实例构造器“<init>()”方法和类构造器“<clinit>()”方法。
  * Synthetic_attribute {
  *  u2 attribute_name_index;
  *  // 0

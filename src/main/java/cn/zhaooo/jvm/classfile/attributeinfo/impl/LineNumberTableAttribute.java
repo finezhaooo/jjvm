@@ -40,6 +40,7 @@ public class LineNumberTableAttribute implements AttributeInfo {
                 return entry.lineNumber;
             }
         }
+        // not found，lineNumber从0开始
         return -1;
     }
 

@@ -4,7 +4,7 @@ import cn.zhaooo.jvm.classfile.ClassReader;
 import cn.zhaooo.jvm.classfile.attributeinfo.AttributeInfo;
 
 /**
- * @description: TODO
+ * @description: 解析失败的默认属性
  * @author zhaooo3
  * @date 5/4/23 11:32 AM
  */

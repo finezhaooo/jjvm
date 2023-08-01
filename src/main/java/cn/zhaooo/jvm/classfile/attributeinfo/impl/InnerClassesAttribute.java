@@ -5,6 +5,7 @@ import cn.zhaooo.jvm.classfile.attributeinfo.AttributeInfo;
 
 /**
  * @description:
+ *  // InnerClasses属性用于记录内部类与宿主类之间的关联。
  * InnerClasses_attribute {
  *  // 该索引处存放CONSTANT_Utf8_info常量项，描述字符串“InnerClass”。
  *  u2 attribute_name_index;

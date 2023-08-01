@@ -5,6 +5,8 @@ import cn.zhaooo.jvm.classfile.attributeinfo.AttributeInfo;
 
 /**
  * @description:
+ * Exceptions属性的作用是列举出方法中可能抛出的受查异常（Checked Excepitons），也就是方法描述时在throws关键字后面列举的异常。
+ *h
  * Exceptions_attribute {
  *  u2 attribute_name_index;
  *  u4 attribute_length;
