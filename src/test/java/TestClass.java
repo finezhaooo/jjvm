@@ -1,19 +1,19 @@
-import java.util.List;
+import cn.zhaooo.jvm.rdta.jvmstack.LocalVars;
+import cn.zhaooo.jvm.rdta.jvmstack.OperandStack;
 
 /**
  * @author zhaooo3
  * @description: TODO
  * @date 4/22/23 5:54 PM
  */
-public class TestClass<T> {
-    static int A = 1;
+public class TestClass {
 
-    int inc(int a, int b, List<Integer> list) {
-        int c = a + b;
-        return c + list.get(0);
-    }
-
-    int add(int a) {
-        return a + 1;
+    public static void main(String[] args) {
+        OperandStack stack = new OperandStack(10);
+        stack.pushLong(Long.MAX_VALUE);
+        System.out.println(stack.popLong());
+        LocalVars localVars = new LocalVars(10);
+        localVars.setLong(0, Long.MIN_VALUE);
+        System.out.println(localVars.getLong(0));
     }
 }
