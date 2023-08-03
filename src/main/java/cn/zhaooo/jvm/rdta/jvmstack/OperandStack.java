@@ -52,6 +52,7 @@ public class OperandStack {
         // 高位先出栈
         int high = slots[--top].val;
         int low = slots[--top].val;
+        // 这里low & 0xFFFFFFFFL是为了将low转变为无符号long，否则当low是负数时和long进行或运算时会将low用符号位补齐为long
         return (long) high << 32 | (low & 0xFFFFFFFFL);
     }
 
