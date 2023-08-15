@@ -6,13 +6,13 @@ package cn.zhaooo.jvm.rdta.jvmstack;
  * @Author: zhaooo
  * @Date: 2023/08/02 21:44
  */
-public class JvmStack {
+public class JVMStack {
     // 最大栈深
     private int maxSize;
     private int size;
     private Frame _top;
 
-    public JvmStack(int maxSize) {
+    public JVMStack(int maxSize) {
         this.maxSize = maxSize;
     }
 

@@ -1,5 +1,7 @@
 package cn.zhaooo.jvm.rdta.jvmstack;
 
+import cn.zhaooo.jvm.rdta.heap.methodarea.Object;
+
 /**
  * @ClassName: LocalVars
  * @Description: 局部变量表

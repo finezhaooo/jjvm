@@ -1,5 +1,8 @@
 package cn.zhaooo.jvm.rdta.jvmstack;
 
+import cn.zhaooo.jvm.rdta.heap.methodarea.Method;
+import cn.zhaooo.jvm.rdta.Thread;
+
 /**
  * @ClassName: Frame
  * @Description: 栈帧
@@ -8,25 +11,49 @@ package cn.zhaooo.jvm.rdta.jvmstack;
  */
 public class Frame {
 
-    // stack is implemented as linked list
     Frame lower;
+    private LocalVars localVars;        //  局部变量表
+    private OperandStack operandStack;  //  操作数栈
+    private Thread thread;              //  当前线程
+    private Method method;              //  当前方法
+    private int nextPC;                 //  下一条指令地址
 
-    // 局部变量表
-    private LocalVars localVars;
-
-    // 操作数栈
-    private OperandStack operandStack;
-
-    public Frame(int maxLocals, int maxStack) {
-        this.localVars = new LocalVars(maxLocals);
-        this.operandStack = new OperandStack(maxStack);
+    // 一层栈帧对应一个方法
+    public Frame(Thread thread, Method method) {
+        this.thread = thread;
+        this.method = method;
+        localVars = new LocalVars(method.maxLocals);
+        operandStack = new OperandStack(method.maxStack);
     }
 
-    public LocalVars getLocalVars(){
+    public LocalVars getLocalVars() {
         return localVars;
     }
 
-    public OperandStack getOperandStack(){
+    public OperandStack getOperandStack() {
         return operandStack;
+    }
+
+    public Thread getThread() {
+        return thread;
+    }
+
+    public Method getMethod() {
+        return method;
+    }
+
+    public int getNextPC() {
+        return nextPC;
+    }
+
+    public void setNextPC(int nextPC) {
+        this.nextPC = nextPC;
+    }
+
+    /**
+     * 将当前栈帧的nextPC设置为线程的PC
+     */
+    public void revertNextPC() {
+        nextPC = thread.getPC();
     }
 }

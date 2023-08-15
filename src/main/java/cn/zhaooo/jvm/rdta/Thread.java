@@ -1,7 +1,8 @@
 package cn.zhaooo.jvm.rdta;
 
+import cn.zhaooo.jvm.rdta.heap.methodarea.Method;
 import cn.zhaooo.jvm.rdta.jvmstack.Frame;
-import cn.zhaooo.jvm.rdta.jvmstack.JvmStack;
+import cn.zhaooo.jvm.rdta.jvmstack.JVMStack;
 
 /**
  * @ClassName: Thread
@@ -11,18 +12,15 @@ import cn.zhaooo.jvm.rdta.jvmstack.JvmStack;
  */
 public class Thread {
 
-    //Program Counter
-    private int pc;
-
-    //虚拟机栈
-    private JvmStack stack;
+    private int pc;         //  PC寄存器，线程私有
+    private JVMStack stack; //  Java虚拟机栈，线程私有
 
     public Thread() {
-        this.stack = new JvmStack(1024);
+        this.stack = new JVMStack(1024);
     }
 
-    public int getPc() {
-        return this.pc;
+    public int getPC() {
+        return pc;
     }
 
     public void setPC(int pc) {
@@ -39,5 +37,9 @@ public class Thread {
 
     public Frame currentFrame() {
         return this.stack.top();
+    }
+
+    public Frame newFrame(Method method) {
+        return new Frame(this, method);
     }
 }
