@@ -1,7 +1,6 @@
 package cn.zhaooo.jvm.rdta.heap.methodarea;
 
 import cn.zhaooo.jvm.rdta.jvmstack.Slot;
-import cn.zhaooo.jvm.rdta.heap.methodarea.Object;
 
 /**
  * @ClassName: Slots

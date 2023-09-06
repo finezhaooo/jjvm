@@ -68,4 +68,12 @@ public class LocalVars {
     public Object getRef(int idx) {
         return slots[idx].ref;
     }
+
+    public Slot[] getSlots() {
+        return this.slots;
+    }
+
+    public void setSlot(int idx, Slot slot) {
+        slots[idx] = slot;
+    }
 }

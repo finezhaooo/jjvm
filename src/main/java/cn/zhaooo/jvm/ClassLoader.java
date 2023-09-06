@@ -225,13 +225,14 @@ public class ClassLoader {
         int slotId = field.getSlotId();
         if (cpIdx > 0) {
             switch (field.getDescriptor()) {
+                // 都用int表示
                 case "Z":
                 case "B":
                 case "C":
                 case "S":
                 case "I":
-                    java.lang.Object val = constantPool.getConstants(cpIdx);
-                    staticVars.setInt(slotId, (Integer) val);
+                    staticVars.setInt(slotId, (Integer) constantPool.getConstants(cpIdx));
+                    break;
                 case "J":
                     staticVars.setLong(slotId, (Long) constantPool.getConstants(cpIdx));
                     break;
@@ -247,6 +248,8 @@ public class ClassLoader {
                     Object jStr = StringPool.jString(clazz.getLoader(), goStr);
                     staticVars.setRef(slotId, jStr);
                     break;
+                default:
+                    throw new ClassFormatError("Not supported type: " + field.getDescriptor());
             }
         }
     }

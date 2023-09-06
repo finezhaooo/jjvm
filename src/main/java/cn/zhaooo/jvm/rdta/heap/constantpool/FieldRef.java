@@ -36,7 +36,7 @@ public class FieldRef extends SymRef {
     /**
      * 解析字段符号引用
      */
-    public Field resolveFieldRef() {
+    public Field resolvedFieldRef() {
         if (null == field) {
             Class d = runTimeConstantPool.getClazz();
             // 从class文件对应的类 解析出字段符号引用对应类

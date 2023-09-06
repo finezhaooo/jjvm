@@ -16,6 +16,9 @@ public class Cmd {
     @Parameter(names = {"-?", "-help"}, description = "print help message", order = 3, help = true)
     boolean helpFlag = false;
 
+    @Parameter(names = "-verbose", description = "enable verbose output", order = 5)
+    boolean verboseClassFlag = false;
+
     @Parameter(names = "-version", description = "print version and exit", order = 2)
     boolean versionFlag = false;
 
@@ -36,10 +39,9 @@ public class Cmd {
                 : null;
     }
 
-    List<String> getAppArgs() {
+    String getAppArgs() {
         return mainClassAndArgs != null && mainClassAndArgs.size() > 1
-                ? mainClassAndArgs.subList(1, mainClassAndArgs.size())
-                : null;
+                ? String.join(" ", mainClassAndArgs.subList(1, mainClassAndArgs.size())) : null;
     }
 
     static Cmd parse(String[] argv) {

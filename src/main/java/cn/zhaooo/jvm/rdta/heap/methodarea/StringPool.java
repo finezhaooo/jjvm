@@ -12,6 +12,9 @@ import cn.zhaooo.jvm.ClassLoader;
  * @Date: 2023/08/07 23:40
  */
 public class StringPool {
+    /**
+     * 缓存当前虚拟机加载的所有字符串
+     */
     private static Map<String, Object> internedStrs = new HashMap<>();
 
     public static Object jString(ClassLoader loader, String goStr) {
