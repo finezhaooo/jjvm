@@ -18,14 +18,12 @@ public class ClassReader {
 
     public int readU1() {
         byte[] val = readByte(1);
-        String strHex = new BigInteger(1, val).toString(16);
-        return Integer.parseInt(strHex, 16);
+        return new BigInteger(1, val).intValue();
     }
 
     public int readU2() {
         byte[] val = readByte(2);
-        String strHex = new BigInteger(1, val).toString(16);
-        return Integer.parseInt(strHex, 16);
+        return new BigInteger(1, val).intValue();
     }
 
     public int[] readU2s() {
@@ -39,8 +37,7 @@ public class ClassReader {
 
     public long readU4() {
         byte[] val = readByte(4);
-        String strHex = new BigInteger(1, val).toString(16);
-        return Long.parseLong(strHex, 16);
+        return new BigInteger(1, val).longValue();
     }
 
     public int readU4ToInteger() {
