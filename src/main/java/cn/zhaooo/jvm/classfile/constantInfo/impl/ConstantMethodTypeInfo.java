@@ -5,9 +5,11 @@ import cn.zhaooo.jvm.classfile.constantInfo.ConstantInfo;
 
 /**
  * @description:
- * The CONSTANT_MethodType_info structure is used to represent a method type:
+ * 用于表示方法类型的 CONSTANT_MethodType_info 结构:
  * CONSTANT_MethodType_info {
  *      u1 tag;
+ *      // 指向常量池中的 CONSTANT_Utf8_info 常量的索引，该常量包含方法的描述符。方法的描述符描述了方法的参数类型和返回类型。
+ *      // 方法描述符即descriptor: (参数类型1, 参数类型2, ...)返回类型,例如(I)Ljava/lang/String
  *      u2 descriptor_index;
  * }
  * @author zhaooo3
@@ -24,7 +26,11 @@ public class ConstantMethodTypeInfo implements ConstantInfo {
 
     @Override
     public int getTag() {
-        return CONSTANT_METHODTYPE;
+        return CONSTANT_METHOD_TYPE;
+    }
+
+    public int getDescriptorIdx() {
+        return descriptorIdx;
     }
 
 }

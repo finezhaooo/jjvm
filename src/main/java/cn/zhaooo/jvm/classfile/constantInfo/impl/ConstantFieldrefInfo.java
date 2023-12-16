@@ -8,14 +8,14 @@ import java.util.Map;
 
 /**
  * @description:
- * Fields, methods, and interface methods are represented by similar structures:
+ * 字段、方法和接口方法都由类似的结构表示：
  * CONSTANT_Fieldref_info {
  *      u1 tag;
- *      // Constant pool index, pointing to the CONSTANT_Class_info constant
- *      // The current field or method is a member of this class or interface
+ *      // 指向 CONSTANT_Class_info 常量的常量池索引
+ *      // 表示该字段所属的类或接口。
  *      u2 class_index;
- *      // Constant pool index, pointing to the CONSTANT_NameAndType_info constant
- *      // The name and descriptor of the current field or method
+ *      // 指向 CONSTANT_NameAndType_info 常量的常量池索引
+ *      // 含了字段的名称和描述符，描述了字段的标识信息。
  *      u2 name_and_type_index;
  * }
  * @author zhaooo3
@@ -40,6 +40,14 @@ public class ConstantFieldrefInfo implements ConstantInfo {
     @Override
     public int getTag() {
         return CONSTANT_FIELDREF;
+    }
+
+    public int getClassIdx() {
+        return classIdx;
+    }
+
+    public int getNameAndTypeIdx() {
+        return nameAndTypeIdx;
     }
 
     public String getClassName() {

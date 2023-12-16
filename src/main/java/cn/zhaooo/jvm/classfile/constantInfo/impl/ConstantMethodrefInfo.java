@@ -8,7 +8,7 @@ import java.util.Map;
 
 /**
  * @description:
- * Fields, methods, and interface methods are represented by similar structures:
+ * 字段、方法和接口方法都由类似的结构表示：
  * CONSTANT_Methodref_info {
  *      u1 tag;
  *      u2 class_index;
@@ -36,6 +36,14 @@ public class ConstantMethodrefInfo implements ConstantInfo {
     @Override
     public int getTag() {
         return CONSTANT_METHODREF;
+    }
+
+    public int getClassIdx() {
+        return classIdx;
+    }
+
+    public int getNameAndTypeIdx() {
+        return nameAndTypeIdx;
     }
 
     public String getClassName() {

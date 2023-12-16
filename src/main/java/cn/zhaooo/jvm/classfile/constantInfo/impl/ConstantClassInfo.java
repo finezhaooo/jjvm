@@ -6,17 +6,18 @@ import cn.zhaooo.jvm.classfile.ConstantPool;
 
 /**
  * @description:
- * The CONSTANT_Class_info structure is used to represent a class or an interface:
+ * 用于表示类或接口的 CONSTANT_Class_info 结构：
  * CONSTANT_Class_info{
  *     u1 tag;
- *     u2 name_index; // Constant pool index, pointing to the CONSTANT_Utf8_info constant
+ *     // 指向 CONSTANT_Utf8_info 常量的常量池索引
+ *     u2 name_index;
  * }
  * @author zhaooo3
  * @date 4/23/23 6:36 PM
  */
 public class ConstantClassInfo implements ConstantInfo {
-    public ConstantPool constantPool;
-    public int nameIdx;
+    private ConstantPool constantPool;
+    private int nameIdx;
 
     public ConstantClassInfo(ConstantPool constantPool) {
         this.constantPool = constantPool;
@@ -30,6 +31,10 @@ public class ConstantClassInfo implements ConstantInfo {
     @Override
     public int getTag() {
         return CONSTANT_CLASS;
+    }
+
+    public int getNameIdx() {
+        return nameIdx;
     }
 
     public String getName() {

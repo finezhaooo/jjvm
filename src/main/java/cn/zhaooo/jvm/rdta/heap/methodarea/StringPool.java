@@ -17,6 +17,7 @@ public class StringPool {
      */
     private static Map<String, Object> internedStrs = new HashMap<>();
 
+    //TODO 调用String.intern()时存储到internedStrs
     public static Object jString(ClassLoader loader, String goStr) {
         Object internedStr = internedStrs.get(goStr);
         if (null != internedStr) return internedStr;

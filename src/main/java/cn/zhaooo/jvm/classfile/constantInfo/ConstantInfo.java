@@ -6,7 +6,11 @@ import cn.zhaooo.jvm.classfile.constantInfo.impl.*;
 
 /**
  * @author zhaooo3
- * @description: TODO
+ * @description: 常量池中的数据项
+ * ConstantInfo {
+ *     u1 tag;
+ *     uX info;
+ * }
  * @date 4/23/23 5:50 PM
  */
 public interface ConstantInfo {
@@ -14,17 +18,17 @@ public interface ConstantInfo {
     int CONSTANT_CLASS = 7;
     int CONSTANT_FIELDREF = 9;
     int CONSTANT_METHODREF = 10;
-    int CONSTANT_INTERFACEMETHODREF = 11;
+    int CONSTANT_INTERFACE_METHODREF = 11;
     int CONSTANT_STRING = 8;
     int CONSTANT_INTEGER = 3;
     int CONSTANT_FLOAT = 4;
     int CONSTANT_LONG = 5;
     int CONSTANT_DOUBLE = 6;
-    int CONSTANT_NAMEANDTYPE = 12;
+    int CONSTANT_NAME_AND_TYPE = 12;
     int CONSTANT_UTF8 = 1;
-    int CONSTANT_METHODHANDLE = 15;
-    int CONSTANT_METHODTYPE = 16;
-    int CONSTANT_INVOKEDYNAMIC = 18;
+    int CONSTANT_METHOD_HANDLE = 15;
+    int CONSTANT_METHOD_TYPE = 16;
+    int CONSTANT_INVOKE_DYNAMIC = 18;
 
     /**
      * 读取常量
@@ -34,7 +38,7 @@ public interface ConstantInfo {
         int tag = reader.readU1();
         //  创建具体常量
         ConstantInfo constantInfo = create(tag, constantPool);
-        //  读取常量信息
+        //  设置常量信息
         constantInfo.readInfo(reader);
         return constantInfo;
     }
@@ -64,18 +68,18 @@ public interface ConstantInfo {
                 return new ConstantFieldrefInfo(constantPool);
             case CONSTANT_METHODREF:
                 return new ConstantMethodrefInfo(constantPool);
-            case CONSTANT_INTERFACEMETHODREF:
+            case CONSTANT_INTERFACE_METHODREF:
                 return new ConstantInterfaceMethodrefInfo(constantPool);
-            case CONSTANT_NAMEANDTYPE:
+            case CONSTANT_NAME_AND_TYPE:
                 return new ConstantNameAndTypeInfo();
             // ConstantMethodTypeInfo 类型的常量主要用于与 CONSTANT_MethodHandle_info 类型的常量配合使用，表示方法句柄的类型
-            case CONSTANT_METHODTYPE:
+            case CONSTANT_METHOD_TYPE:
                 return new ConstantMethodTypeInfo();
             // ConstantMethodHandleInfo 表示一个方法句柄，即对一个方法的直接或间接引用
-            case CONSTANT_METHODHANDLE:
+            case CONSTANT_METHOD_HANDLE:
                 return new ConstantMethodHandleInfo();
             // ConstantInvokeDynamicInfo 表示一个动态调用点，即对一个动态方法调用的描述
-            case CONSTANT_INVOKEDYNAMIC:
+            case CONSTANT_INVOKE_DYNAMIC:
                 return new ConstantInvokeDynamicInfo();
             default:
                 throw new ClassFormatError("constant pool tag");

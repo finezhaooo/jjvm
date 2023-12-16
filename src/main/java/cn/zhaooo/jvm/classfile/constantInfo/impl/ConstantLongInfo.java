@@ -5,16 +5,16 @@ import cn.zhaooo.jvm.classfile.constantInfo.ConstantInfo;
 
 /**
  * @description:
+ * 用于表示 long 类型常量的 CONSTANT_Long_info 结构：
  * CONSTANT_Long_info{
  *      u1 tag;
  *      u4 high_bytes;
  *      u4 low_bytes;
  * }
- * ((long) high_bytes << 32) + low_bytes
- * In the constant pool table of the class file, all 8-byte constants occupy the space of two table members (items).
- * If the index of a CONSTANT_Long_info or CONSTANT_Double_info structure item in the constant pool table is n,
- * the index of the next available item in the constant pool table is n+2. At this time,
- * the item with index +1 in the constant pool table is still valid but must consider unavailable.
+ * ((long) high_bytes << 32) | (low_bytes & 0xFFFFFFFFL)
+ * 在类文件的常量池表中，所有 8 字节的常量占用两个表成员（项）的空间。
+ * 如果在常量池表中 CONSTANT_Long_info 或 CONSTANT_Double_info 结构项的索引为 n，
+ * 则常量池表中下一个可用项的索引为 n+2。此时，常量池表中索引为 n+1 的项仍然有效，但必须视为不可用。
  * @author zhaooo3
  * @date 4/23/23 6:48 PM
  */

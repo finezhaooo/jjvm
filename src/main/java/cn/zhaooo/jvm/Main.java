@@ -36,6 +36,12 @@ public class Main {
 
     public static class VMConfig {
         public static String version = "1.8.0";
-        public static String helpInfo = "Usage:-Xjre <jre path> -cp/-classpath <class search path> <main class> [args...]";
+        public static String helpInfo = "Usage:-Xjre <jre path> -cp/-classpath <class search path> <main class> [args...] \n" +
+                "The most commonly used java options are:\n" +
+                "    -cp/-classpath <class search path of directories and zip/jar files>\n" +
+                "    -Xjre <jre path>\n" +
+                "    -v/-version\n" +
+                "    -h/-help\n" +
+                "    -debug\n";
     }
 }

@@ -150,7 +150,7 @@ public class ClassLoader {
      * 验证阶段大致上会完成下面四个阶段的检验动作：文件格式验证、元数据验证、字节码验证和符号引用验证。
      */
     private void verify(Class clazz) {
-        // todo
+        // TODO 验证阶段
     }
 
     /**

@@ -58,7 +58,7 @@ public class RunTimeConstantPool {
 
                 case ConstantInfo.CONSTANT_STRING:
                     ConstantStringInfo stringInfo = (ConstantStringInfo) constantInfo;
-                    constants[i] = stringInfo.getString();
+                    constants[i] = stringInfo.getVal();
                     break;
                 // SymRef
                 case ConstantInfo.CONSTANT_CLASS:
@@ -73,7 +73,7 @@ public class RunTimeConstantPool {
                     constants[i] = MethodRef.create(this, (ConstantMethodrefInfo) constantInfo);
                     break;
 
-                case ConstantInfo.CONSTANT_INTERFACEMETHODREF:
+                case ConstantInfo.CONSTANT_INTERFACE_METHODREF:
                     constants[i] = InterfaceMethodRef.create(this, (ConstantInterfaceMethodrefInfo) constantInfo);
                     break;
 

@@ -8,12 +8,9 @@ import java.util.List;
  */
 public class Cmd {
     String Xjre;
-
     boolean help = false;
-
     boolean version = false;
     boolean debug = false;
-
     String classpath;
     List<String> mainClassAndArgs;
 

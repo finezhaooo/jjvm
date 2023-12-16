@@ -33,24 +33,27 @@ public class ConstantPool {
                 case ConstantInfo.CONSTANT_DOUBLE:
                     i++;
                     break;
+                default:
+                    break;
             }
         }
     }
 
     /**
      * 从常量池查找字段或方法的名字和描述符
+     * TODO 优化ConstantXXXrefInfo的getNameAndDescriptor
      */
     public Map<String, String> getNameAndType(int idx) {
         ConstantNameAndTypeInfo nameAndTypeInfo = (ConstantNameAndTypeInfo) constantInfos[idx];
         Map<String, String> map = new HashMap<>();
-        map.put("name", getUTF8(nameAndTypeInfo.nameIdx));
-        map.put("_type", getUTF8(nameAndTypeInfo.descIdx));
+        map.put("name", getUTF8(nameAndTypeInfo.getNameIdx()));
+        map.put("_type", getUTF8(nameAndTypeInfo.getDescIdx()));
         return map;
     }
 
     public String getClassName(int idx) {
         ConstantClassInfo classInfo = (ConstantClassInfo) constantInfos[idx];
-        return getUTF8(classInfo.nameIdx);
+        return getUTF8(classInfo.getNameIdx());
     }
 
     /**
