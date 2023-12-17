@@ -7,10 +7,10 @@ import cn.zhaooo.jvm.classfile.attributeinfo.AttributeInfo;
 /**
  * @description:
  * SourceFile_attribute {
- *  u2 attribute_name_index;
- *  u4 attribute_length;
- *  // 源文件名索引，指向CONSTANT_Utf8_info常量
- *  u2 sourcefile_index;
+ *   u2 attribute_name_index;
+ *   u4 attribute_length;
+ *   // 源文件名索引，指向CONSTANT_Utf8_info常量
+ *   u2 sourcefile_index;
  * }
  * @author zhaooo3
  * @date 4/26/23 8:21 PM

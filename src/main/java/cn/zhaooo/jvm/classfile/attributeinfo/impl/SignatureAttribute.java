@@ -10,9 +10,9 @@ import cn.zhaooo.jvm.classfile.attributeinfo.AttributeInfo;
  * 在JDK 5里面大幅增强了Java语言的语法，在此之后，任何类、接口、初始化方法或成员的泛型签名如果包含了
  * 类型变量（Type Variable）或参数化类型（ParameterizedType），则Signature属性会为它记录泛型签名信息。
  * Signature_attribute {
- *  u2 attribute_name_index;
- *  u4 attribute_length;
- *  u2 signature_index;
+ *   u2 attribute_name_index;
+ *   u4 attribute_length;
+ *   u2 signature_index;
  * }
  * @author zhaooo3
  * @date 4/26/23 8:18 PM

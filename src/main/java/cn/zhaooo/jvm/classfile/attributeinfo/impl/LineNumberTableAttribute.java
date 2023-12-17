@@ -8,14 +8,14 @@ import cn.zhaooo.jvm.classfile.attributeinfo.AttributeInfo;
  * 它被调试器用于确定源文件中由给定的行号所表示的内容，对应于Java虚拟机code[]数组中的哪一部分。
  * 在Code属性attributes表中，可以有不止一个LineNumberTable属性对应于源文件中的同一行。
  * LineNumberTable_attribute {
- *  u2 attribute_name_index;
- *  u4 attribute_length;
- *  u2 line_number_table_length;
- *    // start pc项的值必须是code[]数组的一个索引，code[]在该索引处的指令码，表示源文件中新的行的起点。
- *  { u2 start_pc;
- *    // line number项的值必须与源文件中对应的行号相匹配。
- *    u2 line_number;
- *  } line_number_table[line_number_table_length];
+ *   u2 attribute_name_index;
+ *   u4 attribute_length;
+ *   u2 line_number_table_length;
+ *   {  // start pc项的值必须是code[]数组的一个索引，code[]在该索引处的指令码，表示源文件中新的行的起点。
+ *      u2 start_pc;
+ *      // line number项的值必须与源文件中对应的行号相匹配。
+ *      u2 line_number;
+ *   } line_number_table[line_number_table_length];
  * }
  * @author zhaooo3
  * @date 4/26/23 8:28 PM

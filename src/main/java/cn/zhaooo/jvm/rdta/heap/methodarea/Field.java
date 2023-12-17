@@ -31,7 +31,7 @@ public class Field extends ClassMember {
     }
 
     public void copyAttributes(MemberInfo cfField) {
-        ConstantValueAttribute valAttr = cfField.ConstantValueAttribute();
+        ConstantValueAttribute valAttr = cfField.getConstantValueAttribute();
         if (null != valAttr) {
             constValueIndex = valAttr.getConstantValueIdx();
         }

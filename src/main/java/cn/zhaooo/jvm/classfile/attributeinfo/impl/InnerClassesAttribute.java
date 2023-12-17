@@ -5,17 +5,17 @@ import cn.zhaooo.jvm.classfile.attributeinfo.AttributeInfo;
 
 /**
  * @description:
- *  // InnerClasses属性用于记录内部类与宿主类之间的关联。
+ * InnerClasses属性用于记录内部类与宿主类之间的关联。
  * InnerClasses_attribute {
- *  // 该索引处存放CONSTANT_Utf8_info常量项，描述字符串“InnerClass”。
- *  u2 attribute_name_index;
- *  u4 attribute_length;
- *  u2 number_of_classes;
- *  { u2 inner_class_info_index;
- *    u2 outer_class_info_index;
- *    u2 inner_name_index;
- *    u2 inner_class_access_flags;
- *  } classes[number_of_classes];
+ *   // 该索引处存放CONSTANT_Utf8_info常量项，描述字符串“InnerClass”。
+ *   u2 attribute_name_index;
+ *   u4 attribute_length;
+ *   u2 number_of_classes;
+ *   {  u2 inner_class_info_index;
+ *      u2 outer_class_info_index;
+ *      u2 inner_name_index;
+ *      u2 inner_class_access_flags;
+ *   } classes[number_of_classes];
  * }
  * @author zhaooo3
  * @date 4/26/23 4:06 PM

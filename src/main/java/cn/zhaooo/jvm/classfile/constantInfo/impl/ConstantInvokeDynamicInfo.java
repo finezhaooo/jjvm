@@ -43,5 +43,5 @@ public class ConstantInvokeDynamicInfo implements ConstantInfo {
         return nameAndTypeIdx;
     }
 
-    //TODO invokedynamic实现
+    //TODO invokedynamic实现 参考https://zhuanlan.zhihu.com/p/625814074
 }

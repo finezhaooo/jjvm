@@ -4,6 +4,7 @@ import cn.zhaooo.jvm.classfile.attributeinfo.AttributeInfo;
 
 /**
  * @description:
+ * 包含一个Java字节码文件的全部信息
  * ClassFile {
  *  u4 magic;
  *  u2 minor_version;
@@ -26,16 +27,16 @@ import cn.zhaooo.jvm.classfile.attributeinfo.AttributeInfo;
  * @date 4/24/23 12:37 AM
  */
 public class ClassFile {
-    int minorVersion;               //  次版本号
-    int majorVersion;               //  主版本号
-    ConstantPool constantPool;      //  常量池
-    int accessFlags;                //  类访问标志
-    int thisClassIdx;               //  类索引
-    int superClassIdx;              //  超类索引
-    int[] interfaces;               //  接口索引表
-    MemberInfo[] fields;            //  字段表
-    MemberInfo[] methods;           //  方法表
-    AttributeInfo[] attributes;     //  属性表
+    private int minorVersion;               //  次版本号
+    private int majorVersion;               //  主版本号
+    private ConstantPool constantPool;      //  常量池
+    private int accessFlags;                //  类访问标志
+    private int thisClassIdx;               //  类索引
+    private int superClassIdx;              //  超类索引
+    private int[] interfaces;               //  接口索引表
+    private MemberInfo[] fields;            //  字段表
+    private MemberInfo[] methods;           //  方法表
+    private AttributeInfo[] attributes;     //  属性表
 
     public ClassFile(byte[] classData) {
         ClassReader reader = new ClassReader(classData);
