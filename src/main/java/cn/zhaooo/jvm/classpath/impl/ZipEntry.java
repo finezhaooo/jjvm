@@ -7,7 +7,7 @@ import java.nio.file.*;
 
 /**
  * @author zhaooo3
- * @description: Compressed package path
+ * @description: 压缩包路径
  * @date 4/21/23 2:01 PM
  */
 public class ZipEntry implements Entry {
@@ -20,10 +20,10 @@ public class ZipEntry implements Entry {
     }
 
     @Override
-    public byte[] readClass(String className) throws IOException {
-        // get bytes of class from zip
+    public byte[] readClass(String classFileName) throws IOException {
+        // 从压缩包中获取字节码
         try (FileSystem zipFs = FileSystems.newFileSystem(absolutePath, null)) {
-            return Files.readAllBytes(zipFs.getPath(className));
+            return Files.readAllBytes(zipFs.getPath(classFileName));
         }
     }
 

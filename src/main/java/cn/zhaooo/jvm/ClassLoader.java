@@ -37,6 +37,7 @@ public class ClassLoader {
      * 3）在内存中生成一个代表这个类的java.lang.Class对象，作为方法区这个类的各种数据的访问入口。
      * <p>
      * 它并没有指明二进制字节流必须得从某个Class文件中获取，确切地说是根本没有指明要从哪里获取、如何获取
+     * 类的加载是按需进行的，即只有在首次使用类时才会触发加载过程。这使得Java具有懒加载的特性，只加载那些实际需要的类，从而提高了程序的性能。
      */
     public Class loadClass(String className) {
         Class clazz = classMap.get(className);
@@ -81,6 +82,7 @@ public class ClassLoader {
      */
     private Class loadNonArrayClass(String className) throws Exception {
         //  找到class文件并把数据读取到内存
+        // TODO 双亲委派模型，而不是在readClass里面指定寻找顺序
         byte[] data = classpath.readClass(className);
         if (null == data) {
             throw new ClassNotFoundException(className);

@@ -9,8 +9,8 @@ import java.util.List;
 
 /**
  * @author zhaooo3
- * @description: Entry or path mixed in different form
- * 将对象即Entry组织成树形结构
+ * @description: 混合路径
+ * 将对象组织成树形结构，即Entry。
  * @date 4/21/23 1:57 PM
  */
 public class CompositeEntry implements Entry {
@@ -30,17 +30,17 @@ public class CompositeEntry implements Entry {
     }
 
     @Override
-    public byte[] readClass(String className) throws IOException {
+    public byte[] readClass(String classFileName) throws IOException {
         for (Entry entry : entryList) {
             try {
                 // If found, return the class file
-                return entry.readClass(className);
+                return entry.readClass(classFileName);
             } catch (Exception ignored) {
                 // if not found then do nothing
                 // ignored
             }
         }
-        throw new IOException("class not found " + className);
+        throw new IOException("class not found " + classFileName);
     }
 
     // Method to generate a string representation of the CompositeEntry object

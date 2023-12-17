@@ -8,16 +8,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author zhaooo3
- * @description: Wildcard type path
+ * @description: 通配符类型的路径
  * @date 4/21/23 1:58 PM
  */
+
 public class WildcardEntry extends CompositeEntry {
 
     public WildcardEntry(String path) {
-        // Call CompositeEntry constructor with the list of paths generated from the wildcard path
+        // 使用通配符路径生成的路径列表调用 CompositeEntry 构造函数
         super(toPathList(path));
     }
 
@@ -26,16 +28,17 @@ public class WildcardEntry extends CompositeEntry {
      * jre/lib/* 和 jre/lib/ext/* 下包含的源码都是打包为jar
      */
     private static String toPathList(String wildcardPath) {
-        // Remove "*" from the wildcard path
+        // 从通配符路径中移除 "*"
         String baseDir = wildcardPath.replace("*", "");
-        try {
-            // Use Files.walk to recursively traverse the base directory and its subdirectories
-            return Files.walk(Paths.get(baseDir))
+        // 使用 Files.walk 递归遍历基目录及其子目录
+        // 使用 try-with-resources 来确保资源自动关闭
+        try (Stream<Path> pathStream = Files.walk(Paths.get(baseDir))) {
+            return pathStream
                     .filter(Files::isRegularFile)
                     .map(Path::toString)
-                    // 通配符类路径不能递归匹配子目录下的JAR文件
+                    // 通配符类路径不能递归匹配子目录下的 JAR 文件
                     .filter(p -> p.endsWith(".jar") || p.endsWith(".JAR"))
-                    // Join the paths using the File.pathSeparator
+                    // 使用 File.pathSeparator 连接路径
                     .collect(Collectors.joining(File.pathSeparator));
         } catch (IOException e) {
             return "";
