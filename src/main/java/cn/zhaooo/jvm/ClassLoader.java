@@ -14,6 +14,9 @@ import java.util.Map;
 /**
  * @ClassName: ClassLoader
  * @Description: 类加载器 Java天生可以动态扩展的语言特性就是依赖运行期动态加载和动态连接这个特点实现的
+ *                |-----------------link（链接）------------|
+ * Loading     -> Verification -> Preparation -> Resolution -> Initialization -> Using        -> Unloading
+ * 加载         -> 验证          -> 准备        -> 解析        -> 初始化          -> 使用          -> 卸载
  * @Author: zhaooo
  * @Date: 2023/08/07 23:37
  */
@@ -38,6 +41,7 @@ public class ClassLoader {
      * <p>
      * 它并没有指明二进制字节流必须得从某个Class文件中获取，确切地说是根本没有指明要从哪里获取、如何获取
      * 类的加载是按需进行的，即只有在首次使用类时才会触发加载过程。这使得Java具有懒加载的特性，只加载那些实际需要的类，从而提高了程序的性能。
+     * // TODO 双亲委派模型，而不是在getClassBytes里面指定寻找顺序
      */
     public Class loadClass(String className) {
         Class clazz = classMap.get(className);
@@ -53,7 +57,7 @@ public class ClassLoader {
         try {
             return loadNonArrayClass(className);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("unable to load class " + className);
         }
         return null;
     }
@@ -82,8 +86,7 @@ public class ClassLoader {
      */
     private Class loadNonArrayClass(String className) throws Exception {
         //  找到class文件并把数据读取到内存
-        // TODO 双亲委派模型，而不是在readClass里面指定寻找顺序
-        byte[] data = classpath.readClass(className);
+        byte[] data = classpath.getClassBytes(className);
         if (null == data) {
             throw new ClassNotFoundException(className);
         }

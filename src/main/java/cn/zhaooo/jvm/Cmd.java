@@ -39,7 +39,7 @@ public class Cmd {
                     break;
                 default:
                     if (arg.startsWith("-")) {
-                        System.out.printf("Unrecognized option: %s\n", arg);
+                        System.err.printf("Unrecognized option: %s\n", arg);
                         cmd.help = true;
                     } else {
                         cmd.mainClassAndArgs = Arrays.asList(args).subList(i, args.length);

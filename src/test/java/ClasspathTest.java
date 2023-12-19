@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Spliterators;
 import java.util.stream.Stream;
@@ -20,13 +21,17 @@ public class ClasspathTest {
     public static void main(String[] args) {
         Classpath classpath = new Classpath(null, null);
         try {
-            Method getDir  = Classpath.class.getDeclaredMethod("getJreDir", String.class);
+            Method getDir = Classpath.class.getDeclaredMethod("getJreDir", String.class);
             getDir.setAccessible(true);
             String jrePath = getDir.invoke(classpath, (Object) null) + File.separator + "*";
             Entry entry = Entry.create(jrePath);
             String[] libs = entry.toString().split(File.pathSeparator);
             for (String lib : libs) {
                 System.out.println(lib);
+            }
+            URL[] urls = sun.misc.Launcher.getBootstrapClassPath().getURLs();
+            for (URL url : urls) {
+                System.out.println(url.toExternalForm());
             }
             ClassFile classFile = new ClassFile(entry.readClass("java/lang/Object.class"));
             ClassFileTest.printClassInfo(classFile);

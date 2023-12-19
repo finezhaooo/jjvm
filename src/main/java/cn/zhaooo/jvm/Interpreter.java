@@ -62,7 +62,7 @@ public class Interpreter {
             Instruction inst = Factory.create(opcode);
 
             if (null == inst) {
-                System.out.println("Unsupported opcode " + byteToHexString(new byte[]{opcode}));
+                System.err.println("Unsupported opcode " + byteToHexString(new byte[]{opcode}));
                 break;
             }
             inst.fetchOperands(reader);

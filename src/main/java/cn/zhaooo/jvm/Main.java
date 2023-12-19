@@ -24,9 +24,9 @@ public class Main {
         Classpath classpath = new Classpath(cmd.Xjre, cmd.classpath);
         ClassLoader classLoader = new ClassLoader(classpath);
 
-        //  获取className
-        String className = cmd.mainClassAndArgs.get(0).replace(".", "/");
-        Class mainClass = classLoader.loadClass(className);
+        //  获取mainClassName
+        String mainClassName = cmd.mainClassAndArgs.get(0).replace(".", "/");
+        Class mainClass = classLoader.loadClass(mainClassName);
         Method mainMethod = mainClass.getMainMethod();
         if (null == mainMethod) {
             throw new RuntimeException("Main method not found in class " + cmd.mainClassAndArgs.get(0));
