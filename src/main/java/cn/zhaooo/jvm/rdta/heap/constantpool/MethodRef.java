@@ -15,8 +15,8 @@ import java.util.Map;
  */
 public class MethodRef extends SymRef {
 
-    public String name;         //  方法名
-    public String descriptor;   //  方法描述符
+    private String name;         //  方法名
+    private String descriptor;   //  方法描述符
     private Method method;      //  方法
 
     /**
@@ -43,7 +43,7 @@ public class MethodRef extends SymRef {
         if (null == method) {
             //  如果类d想通过方法符号引用访问类c的某个方法，先要解析符号引用得到类c
             Class d = runTimeConstantPool.getClazz();
-            Class c = resolvedClass();
+            Class c = getResolvedClass();
 
             //  如果c是接口，则抛出IncompatibleClassChangeError
             if (c.isInterface()) {

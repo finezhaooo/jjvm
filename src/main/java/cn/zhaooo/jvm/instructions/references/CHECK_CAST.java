@@ -30,7 +30,7 @@ public class CHECK_CAST extends Index16Instruction {
         //  如果是的话，指令执行结束
         RunTimeConstantPool cp = frame.getMethod().getClazz().getConstantPool();
         ClassRef clazzRef = (ClassRef) cp.getConstants(idx);
-        Class clazz = clazzRef.resolvedClass();
+        Class clazz = clazzRef.getResolvedClass();
         // isInstanceOf->isAssignableFrom->isSubClassOf/isImplements
         if (!ref.isInstanceOf(clazz)){
             throw new ClassCastException(ref.getClass().getName() + "can not be cast to" + clazz.getName());

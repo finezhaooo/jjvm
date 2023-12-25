@@ -27,7 +27,7 @@ public class MULTI_ANEW_ARRAY implements Instruction {
     public void execute(Frame frame) {
         RunTimeConstantPool runTimeConstantPool = frame.getMethod().getClazz().getConstantPool();
         ClassRef classRef = (ClassRef) runTimeConstantPool.getConstants((int) idx);
-        Class arrClass = classRef.resolvedClass();
+        Class arrClass = classRef.getResolvedClass();
 
         OperandStack stack = frame.getOperandStack();
         int[] counts = popAndCheckCounts(stack, dimensions);

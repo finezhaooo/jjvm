@@ -23,7 +23,7 @@ public class INVOKE_SPECIAL  extends Index16Instruction {
         MethodRef methodRef = (MethodRef) runTimeConstantPool.getConstants(idx);
 
         //  解析方法符号引用，拿到解析后的类和方法
-        Class resolvedClass = methodRef.resolvedClass();
+        Class resolvedClass = methodRef.getResolvedClass();
         Method resolvedMethod = methodRef.resolvedMethodRef();
 
         //  假定从方法符号引用中解析出来的类是c，方法是M

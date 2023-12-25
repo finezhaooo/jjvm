@@ -46,7 +46,7 @@ public class INVOKE_INTERFACE implements Instruction {
         }
 
         //  如果引用所指对象的类没有实现解析出来的接口，则抛出IncompatibleClassChangeError异常
-        if (!ref.getClazz().isImplements(methodRef.resolvedClass())) {
+        if (!ref.getClazz().isImplements(methodRef.getResolvedClass())) {
             throw new IncompatibleClassChangeError();
         }
 

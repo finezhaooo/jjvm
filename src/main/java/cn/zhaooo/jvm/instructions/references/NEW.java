@@ -18,7 +18,7 @@ public class NEW extends Index16Instruction {
         ClassRef classRef = (ClassRef) cp.getConstants(idx);
 
         //  解析类符号引用，拿到类数据
-        Class clazz = classRef.resolvedClass();
+        Class clazz = classRef.getResolvedClass();
         if (clazz.isInterface() || clazz.isAbstract()) {
             //  接口和抽象类不能实例化，如果解析后的类是接口或抽象类，按照Java虚拟机规范规定，需要抛出InstantiationError异常
             throw new InstantiationError();

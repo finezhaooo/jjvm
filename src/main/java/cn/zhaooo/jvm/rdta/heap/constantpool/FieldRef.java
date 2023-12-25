@@ -15,8 +15,8 @@ import java.util.Map;
  */
 public class FieldRef extends SymRef {
 
-    public String name;         //  字段名
-    public String descriptor;   //  字段描述符
+    private String name;         //  字段名
+    private String descriptor;   //  字段描述符
     private Field field;        //  字段
 
     public static FieldRef create(RunTimeConstantPool runTimeConstantPool, ConstantFieldrefInfo refInfo) {
@@ -40,7 +40,7 @@ public class FieldRef extends SymRef {
         if (null == field) {
             Class d = runTimeConstantPool.getClazz();
             // 从class文件对应的类 解析出字段符号引用对应类
-            Class c = resolvedClass();
+            Class c = getResolvedClass();
             Field field = lookupField(c, name, descriptor);
             if (null == field) {
                 throw new NoSuchFieldError();

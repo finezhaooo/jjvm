@@ -20,7 +20,7 @@ public class ANEW_ARRAY extends Index16Instruction {
         RunTimeConstantPool runTimeConstantPool = frame.getMethod().getClazz().getConstantPool();
         // 组件类型
         ClassRef classRef = (ClassRef) runTimeConstantPool.getConstants(idx);
-        Class componentClass = classRef.resolvedClass();
+        Class componentClass = classRef.getResolvedClass();
 
         OperandStack stack = frame.getOperandStack();
         int count = stack.popInt();

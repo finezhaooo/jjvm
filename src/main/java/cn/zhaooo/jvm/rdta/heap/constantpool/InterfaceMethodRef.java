@@ -42,7 +42,7 @@ public class InterfaceMethodRef extends SymRef {
     public Method resolvedInterfaceMethodRef() {
         if (method == null) {
             Class d = runTimeConstantPool.getClazz();
-            Class c = resolvedClass();
+            Class c = getResolvedClass();
             if (!c.isInterface()) {
                 throw new IncompatibleClassChangeError();
             }
