@@ -12,10 +12,10 @@ import cn.zhaooo.jvm.rdta.Thread;
 public class Frame {
 
     Frame lower;
-    private LocalVars localVars;        //  局部变量表
-    private OperandStack operandStack;  //  操作数栈
-    private Thread thread;              //  当前线程
-    private Method method;              //  当前方法（用于支持动态链接）
+    private final LocalVars localVars;        //  局部变量表
+    private final OperandStack operandStack;  //  操作数栈
+    private final Thread thread;              //  当前线程
+    private final Method method;              //  当前方法（用于支持动态链接）
     // returnAddress                    //  返回地址
     private int nextPC;                 //  下一条指令地址
 

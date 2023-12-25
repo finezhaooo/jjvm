@@ -13,7 +13,7 @@ import cn.zhaooo.jvm.rdta.jvmstack.JVMStack;
 public class Thread {
 
     private int pc;         //  PC寄存器，线程私有
-    private JVMStack stack; //  Java虚拟机栈，线程私有
+    private final JVMStack stack; //  Java虚拟机栈，线程私有
 
     public Thread() {
         this.stack = new JVMStack(1024);

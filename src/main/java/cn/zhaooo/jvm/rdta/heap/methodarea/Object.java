@@ -20,8 +20,6 @@ public class Object {
         this.data = data;
     }
 
-
-
     public boolean isInstanceOf(Class clazz) {
         return clazz.isAssignableFrom(clazz);
     }
@@ -46,7 +44,6 @@ public class Object {
         Slots slots = (Slots) data;
         slots.setRef(field.slotId, ref);
     }
-
 
     public byte[] getBytes() {
         return (byte[]) data;

@@ -36,6 +36,7 @@ public class LOOKUP_SWITCH implements Instruction {
             if (matchOffsets[i] == key) {
                 int offset = matchOffsets[i + 1];
                 Instruction.branch(frame, offset);
+                return;
             }
         }
         //  否则按照defaultOffset跳转

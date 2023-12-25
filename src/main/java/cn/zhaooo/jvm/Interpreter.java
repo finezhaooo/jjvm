@@ -1,6 +1,7 @@
 package cn.zhaooo.jvm;
 
-import com.alibaba.fastjson2.JSON;
+import cn.zhaooo.jvm.rdta.jvmstack.LocalVars;
+import cn.zhaooo.jvm.rdta.jvmstack.OperandStack;
 import cn.zhaooo.jvm.instructions.Factory;
 import cn.zhaooo.jvm.instructions.base.BytecodeReader;
 import cn.zhaooo.jvm.instructions.base.Instruction;
@@ -24,6 +25,7 @@ public class Interpreter {
         Frame frame = thread.newFrame(method);
         thread.pushFrame(frame);
 
+        // 将命令行参数args[]传递给main()方法
         if (null != args) {
             Object jArgs = createArgsArray(method.getClazz().getLoader(), args.split(" "));
             frame.getLocalVars().setRef(0, jArgs);
@@ -69,7 +71,7 @@ public class Interpreter {
             frame.setNextPC(reader.getPC());
 
             if (logInst) {
-                logInstruction(frame, inst, opcode);
+                logInstruction(inst, frame);
             }
 
             //  执行
@@ -82,16 +84,14 @@ public class Interpreter {
         }
     }
 
-    private static void logInstruction(Frame frame, Instruction inst, byte opcode) {
-        Method method = frame.getMethod();
-        String className = method.getClazz().getName();
-        String methodName = method.getName();
-        String outStr = (className + "." + methodName + "() \t") +
-                "寄存器(指令)：" + byteToHexString(new byte[]{opcode}) +
-                " -> " + inst.getClass().getSimpleName() +
-                " => 局部变量表：" + JSON.toJSONString(frame.getLocalVars().getSlots()) +
-                " 操作数栈：" + JSON.toJSONString(frame.getOperandStack().getSlots());
-        System.out.println(outStr);
+    private void logInstruction(Instruction instruction, Frame stackFrame) {
+        Method myMethod = stackFrame.getMethod();
+        String thisClassName = myMethod.getClazz().getName();
+        String methodName = myMethod.getName();
+        int pc = stackFrame.getThread().getPC();
+        System.out.println((thisClassName + "." + methodName + "() #" + pc + " -> " + instruction.getClass().getSimpleName()));
+        stackFrame.getOperandStack().print();
+        stackFrame.getOperandStack().print();
     }
 
     private static String byteToHexString(byte[] codes) {

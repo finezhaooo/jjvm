@@ -16,7 +16,7 @@ import java.util.Arrays;
  */
 public class ClassFileTest {
     public static void main(String[] args) {
-        File file = new File("C:\\Projects\\jjvm\\target\\test-classes\\helloTest.class"); // 替换为你实际的文件路径
+        File file = new File("C:\\Projects\\jvm\\jjvm\\target\\test-classes\\InnerClassTest$InnerClass.class"); // 替换为你实际的文件路径
         byte[] buffer = null;
         try (FileInputStream fis = new FileInputStream(file)) {
             buffer = new byte[(int) file.length()];

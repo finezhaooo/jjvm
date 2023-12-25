@@ -8,7 +8,7 @@ package cn.zhaooo.jvm.rdta.jvmstack;
  */
 public class JVMStack {
     // 最大栈深
-    private int maxSize;
+    private final int maxSize;
     private int size;
     private Frame _top;
 

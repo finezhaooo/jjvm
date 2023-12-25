@@ -8,14 +8,7 @@ import static java.lang.ClassLoader.getSystemClassLoader;
  */
 public class Test {
     public static void main(String[] args) {
-        int a = 10;
-        switch (a) {
-            case 10:
-                System.out.println("1");
-                break;
-            case 11:
-                System.out.println("2");
-                break;
-        }
+        String str = "hello";
+        System.out.println(str.substring(1, 3));
     }
 }
