@@ -74,7 +74,7 @@ public class MethodRef extends SymRef {
         Method method = MethodLookup.lookupMethodInClass(clazz, name, descriptor);
         //  如果找不到，就去c的接口中找
         if (null == method) {
-            method = MethodLookup.lookupMethodInInterfaces(clazz.interfaces, name, descriptor);
+            method = MethodLookup.lookupMethodInInterfaces(clazz.getInterfaces(), name, descriptor);
         }
         return method;
     }

@@ -19,7 +19,7 @@ public class INVOKE_SPECIAL  extends Index16Instruction {
     public void execute(Frame frame) {
         //  拿到当前类、当前常量池、方法符号引用
         Class currentClass = frame.getMethod().getClazz();
-        RunTimeConstantPool runTimeConstantPool = currentClass.getConstantPool();
+        RunTimeConstantPool runTimeConstantPool = currentClass.getRunTimeConstantPool();
         MethodRef methodRef = (MethodRef) runTimeConstantPool.getConstants(idx);
 
         //  解析方法符号引用，拿到解析后的类和方法
@@ -60,7 +60,7 @@ public class INVOKE_SPECIAL  extends Index16Instruction {
         if (currentClass.isSuper() &&
                 resolvedClass.isSubClassOf(currentClass) &&
                 !resolvedMethod.getName().equals("<init>")) {
-            MethodLookup.lookupMethodInClass(currentClass.superClass, methodRef.getName(), methodRef.getDescriptor());
+            MethodLookup.lookupMethodInClass(currentClass.getSuperClass(), methodRef.getName(), methodRef.getDescriptor());
         }
 
         //  如果查找失败，或者找到的方法是抽象的，抛出AbstractMethodError异常

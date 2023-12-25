@@ -15,8 +15,8 @@ public class MethodLookup {
      * 从类的继承中查找方法
      */
     static public Method lookupMethodInClass(Class clazz, String name, String descriptor) {
-        for (Class c = clazz; c != null; c = c.superClass) {
-            for (Method method : c.methods) {
+        for (Class c = clazz; c != null; c = c.getSuperClass()) {
+            for (Method method : c.getMethods()) {
                 if (method.name.equals(name) && method.descriptor.equals(descriptor)) {
                     return method;
                 }
@@ -30,7 +30,7 @@ public class MethodLookup {
      */
     static public Method lookupMethodInInterfaces(Class[] ifaces, String name, String descriptor) {
         for (Class inface : ifaces) {
-            for (Method method : inface.methods) {
+            for (Method method : inface.getMethods()) {
                 if (method.name.equals(name) && method.descriptor.equals(descriptor)) {
                     return method;
                 }

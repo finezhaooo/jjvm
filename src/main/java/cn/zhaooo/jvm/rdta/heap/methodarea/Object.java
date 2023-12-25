@@ -12,7 +12,7 @@ public class Object {
 
     public Object(Class clazz){
         this.clazz = clazz;
-        this.data = new Slots(clazz.instanceSlotCount);
+        this.data = new Slots(clazz.getInstanceSlotCount());
     }
 
     public Object(Class clazz, java.lang.Object data) {

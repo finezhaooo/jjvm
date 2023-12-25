@@ -17,7 +17,7 @@ public class GET_FIELD extends Index16Instruction {
 
     @Override
     public void execute(Frame frame) {
-        RunTimeConstantPool runTimeConstantPool = frame.getMethod().getClazz().getConstantPool();
+        RunTimeConstantPool runTimeConstantPool = frame.getMethod().getClazz().getRunTimeConstantPool();
         FieldRef fieldRef = (FieldRef) runTimeConstantPool.getConstants(idx);
         Field field = fieldRef.resolvedFieldRef();
 

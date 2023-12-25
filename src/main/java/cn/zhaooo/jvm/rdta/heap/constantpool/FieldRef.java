@@ -54,19 +54,19 @@ public class FieldRef extends SymRef {
     }
 
     private Field lookupField(Class c, String name, String descriptor) {
-        for (Field field : c.fields) {
+        for (Field field : c.getFields()) {
             if (field.name.equals(name) && field.descriptor.equals(descriptor)) {
                 return field;
             }
         }
         // 接口里面定义的成员变量都是 public static final 修饰
-        for (Class iface : c.interfaces) {
+        for (Class iface : c.getInterfaces()) {
             Field field = lookupField(iface, name, descriptor);
             if (null != field) return field;
         }
 
-        if (c.superClass != null) {
-            return lookupField(c.superClass, name, descriptor);
+        if (c.getSuperClass() != null) {
+            return lookupField(c.getSuperClass(), name, descriptor);
         }
         return null;
     }

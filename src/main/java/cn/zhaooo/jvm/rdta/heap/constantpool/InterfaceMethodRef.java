@@ -65,12 +65,12 @@ public class InterfaceMethodRef extends SymRef {
      * 根据接口方法名和描述符查找接口方法
      */
     private Method lookupInterfaceMethod(Class iface, String name, String descriptor) {
-        for (Method method : iface.methods) {
+        for (Method method : iface.getMethods()) {
             if (method.name.equals(name) && method.descriptor.equals(descriptor)) {
                 return method;
             }
         }
-        return MethodLookup.lookupMethodInInterfaces(iface.interfaces, name, descriptor);
+        return MethodLookup.lookupMethodInInterfaces(iface.getInterfaces(), name, descriptor);
     }
 
     public String getName() {

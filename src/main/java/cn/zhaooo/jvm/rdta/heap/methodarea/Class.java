@@ -14,20 +14,20 @@ import cn.zhaooo.jvm.rdta.heap.util.ClassNameHelper;
  */
 public class Class {
 
-    public int accessFlags;                             //  类的访问标志，总共16比特
-    public String name;                                 //  类名
-    public String superClassName;                       //  超类名
-    public String[] interfaceNames;                     //  接口名
-    public RunTimeConstantPool runTimeConstantPool;     //  运行时常量池
-    public Field[] fields;                              //  字段表
-    public Method[] methods;                            //  方法表
-    public ClassLoader loader;                          //  类加载器
-    public Class superClass;                            //  超类
-    public Class[] interfaces;                          //  接口
-    public int instanceSlotCount;                       //  实例变量占据的空间大小
-    public int staticSlotCount;                         //  类变量占据的空间大小
-    public Slots staticVars;                            //  静态变量
-    public boolean initStarted;                         //  类是否初始化
+    private final int accessFlags;                             //  类的访问标志，总共16比特
+    private String name;                                 //  类名
+    private String superClassName;                       //  超类名
+    private String[] interfaceNames;                     //  接口名
+    private RunTimeConstantPool runTimeConstantPool;     //  运行时常量池
+    private Field[] fields;                              //  字段表
+    private Method[] methods;                            //  方法表
+    private ClassLoader loader;                          //  类加载器
+    private Class superClass;                            //  超类
+    private Class[] interfaces;                          //  接口
+    private int instanceSlotCount;                       //  实例变量占据的空间大小
+    private int staticSlotCount;                         //  类变量占据的空间大小
+    private Slots staticVars;                            //  静态变量
+    private boolean initStarted;                         //  类是否初始化
 
     /**
      * 基于加载的类文件构造class
@@ -172,11 +172,6 @@ public class Class {
         return name.getBytes()[0] == '[';
     }
 
-
-    public RunTimeConstantPool getConstantPool() {
-        return runTimeConstantPool;
-    }
-
     public Field getField(String name, String descriptor, boolean isStatic) {
         for (Class c = this; c != null; c = c.superClass) {
             for (Field field : c.fields) {
@@ -188,36 +183,6 @@ public class Class {
             }
         }
         return null;
-    }
-
-    public ClassLoader getLoader() {
-        return loader;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Class getSuperClass() {
-        return superClass;
-    }
-
-    public Slots getStaticVars() {
-        return staticVars;
-    }
-
-    public boolean getInitStarted() {
-        return initStarted;
-    }
-
-    public void startInit() {
-        initStarted = true;
-    }
-
-    public String getPackageName() {
-        int i = this.name.lastIndexOf("/");
-        if (i >= 0) return this.name;
-        return "";
     }
 
     public Method getMainMethod() {
@@ -251,5 +216,116 @@ public class Class {
     public Class getComponentClass() {
         String componentClassName = ClassNameHelper.getComponentClassName(name);
         return loader.loadClass(componentClassName);
+    }
+
+    public String getPackageName() {
+        int i = this.name.lastIndexOf("/");
+        if (i >= 0) return this.name;
+        return "";
+    }
+
+    // getter and setter
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSuperClassName() {
+        return superClassName;
+    }
+
+    public void setSuperClassName(String superClassName) {
+        this.superClassName = superClassName;
+    }
+
+    public String[] getInterfaceNames() {
+        return interfaceNames;
+    }
+
+    public void setInterfaceNames(String[] interfaceNames) {
+        this.interfaceNames = interfaceNames;
+    }
+
+    public RunTimeConstantPool getRunTimeConstantPool() {
+        return runTimeConstantPool;
+    }
+
+    public void setRunTimeConstantPool(RunTimeConstantPool runTimeConstantPool) {
+        this.runTimeConstantPool = runTimeConstantPool;
+    }
+
+    public Field[] getFields() {
+        return fields;
+    }
+
+    public void setFields(Field[] fields) {
+        this.fields = fields;
+    }
+
+    public Method[] getMethods() {
+        return methods;
+    }
+
+    public void setMethods(Method[] methods) {
+        this.methods = methods;
+    }
+
+    public ClassLoader getLoader() {
+        return loader;
+    }
+
+    public void setLoader(ClassLoader loader) {
+        this.loader = loader;
+    }
+
+    public Class getSuperClass() {
+        return superClass;
+    }
+
+    public void setSuperClass(Class superClass) {
+        this.superClass = superClass;
+    }
+
+    public Class[] getInterfaces() {
+        return interfaces;
+    }
+
+    public void setInterfaces(Class[] interfaces) {
+        this.interfaces = interfaces;
+    }
+
+    public int getInstanceSlotCount() {
+        return instanceSlotCount;
+    }
+
+    public void setInstanceSlotCount(int instanceSlotCount) {
+        this.instanceSlotCount = instanceSlotCount;
+    }
+
+    public int getStaticSlotCount() {
+        return staticSlotCount;
+    }
+
+    public void setStaticSlotCount(int staticSlotCount) {
+        this.staticSlotCount = staticSlotCount;
+    }
+
+    public Slots getStaticVars() {
+        return staticVars;
+    }
+
+    public void setStaticVars(Slots staticVars) {
+        this.staticVars = staticVars;
+    }
+
+    public boolean isInitStarted() {
+        return initStarted;
+    }
+
+    public void setInitStarted(boolean initStarted) {
+        this.initStarted = initStarted;
     }
 }

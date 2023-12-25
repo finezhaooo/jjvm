@@ -17,7 +17,7 @@ public class INVOKE_STATIC extends Index16Instruction {
     @Override
     public void execute(Frame frame) {
         //  解析方法符号引用
-        RunTimeConstantPool runTimeConstantPool = frame.getMethod().getClazz().getConstantPool();
+        RunTimeConstantPool runTimeConstantPool = frame.getMethod().getClazz().getRunTimeConstantPool();
         MethodRef methodRef = (MethodRef) runTimeConstantPool.getConstants(idx);
         Method resolvedMethod = methodRef.resolvedMethodRef();
 
@@ -28,7 +28,7 @@ public class INVOKE_STATIC extends Index16Instruction {
 
         //  类初始方法只能由Java虚拟机调用，不能使用invokestatic指令调用
         Class clazz = resolvedMethod.getClazz();
-        if (!clazz.getInitStarted()) {
+        if (!clazz.isInitStarted()) {
             frame.revertNextPC();
             ClassInitLogic.initClass(frame.getThread(), clazz);
             return;

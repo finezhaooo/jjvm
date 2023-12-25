@@ -25,7 +25,7 @@ public class INSTANCE_OF extends Index16Instruction {
         }
 
         //  如果对象引用不是null，则解析类符号引用，判断对象是否是类的实例，并将结果推入操作数栈
-        RunTimeConstantPool cp = frame.getMethod().getClazz().getConstantPool();
+        RunTimeConstantPool cp = frame.getMethod().getClazz().getRunTimeConstantPool();
         ClassRef classRef = (ClassRef) cp.getConstants(idx);
         Class clazz = classRef.getResolvedClass();
         if (ref.isInstanceOf(clazz)){

@@ -28,7 +28,7 @@ public class CHECK_CAST extends Index16Instruction {
         }
         //  否则解析类符号引用，判断对象是否是类的实例，
         //  如果是的话，指令执行结束
-        RunTimeConstantPool cp = frame.getMethod().getClazz().getConstantPool();
+        RunTimeConstantPool cp = frame.getMethod().getClazz().getRunTimeConstantPool();
         ClassRef clazzRef = (ClassRef) cp.getConstants(idx);
         Class clazz = clazzRef.getResolvedClass();
         // isInstanceOf->isAssignableFrom->isSubClassOf/isImplements

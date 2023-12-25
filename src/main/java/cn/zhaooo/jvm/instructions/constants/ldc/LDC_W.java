@@ -18,7 +18,7 @@ public class LDC_W extends Index16Instruction {
     public void execute(Frame frame) {
         OperandStack stack = frame.getOperandStack();
         Class clazz = frame.getMethod().getClazz();
-        RunTimeConstantPool runTimeConstantPool = frame.getMethod().getClazz().getConstantPool();
+        RunTimeConstantPool runTimeConstantPool = frame.getMethod().getClazz().getRunTimeConstantPool();
         java.lang.Object c = runTimeConstantPool.getConstants(idx);
 
         if (c instanceof Integer) {

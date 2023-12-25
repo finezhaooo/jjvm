@@ -29,7 +29,7 @@ public class INVOKE_INTERFACE implements Instruction {
     @Override
     public void execute(Frame frame) {
         //  从运行时常量池中拿到并解析接口方法符号引用
-        RunTimeConstantPool runTimeConstantPool = frame.getMethod().getClazz().getConstantPool();
+        RunTimeConstantPool runTimeConstantPool = frame.getMethod().getClazz().getRunTimeConstantPool();
         InterfaceMethodRef methodRef = (InterfaceMethodRef) runTimeConstantPool.getConstants(idx);
         Method resolvedMethod = methodRef.resolvedInterfaceMethodRef();
 

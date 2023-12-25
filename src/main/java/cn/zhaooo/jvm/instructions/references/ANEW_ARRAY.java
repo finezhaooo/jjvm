@@ -17,7 +17,7 @@ public class ANEW_ARRAY extends Index16Instruction {
 
     @Override
     public void execute(Frame frame) {
-        RunTimeConstantPool runTimeConstantPool = frame.getMethod().getClazz().getConstantPool();
+        RunTimeConstantPool runTimeConstantPool = frame.getMethod().getClazz().getRunTimeConstantPool();
         // 组件类型
         ClassRef classRef = (ClassRef) runTimeConstantPool.getConstants(idx);
         Class componentClass = classRef.getResolvedClass();

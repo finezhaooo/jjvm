@@ -14,7 +14,7 @@ import cn.zhaooo.jvm.rdta.Thread;
 public class ClassInitLogic {
     public static void initClass(Thread thread, Class clazz) {
         //  将类的initStarted状态设置成true
-        clazz.startInit();
+        clazz.setInitStarted(true);
         scheduleClinit(thread, clazz);
         initSuperClass(thread, clazz);
     }
@@ -30,7 +30,7 @@ public class ClassInitLogic {
     private static void initSuperClass(Thread thread, Class clazz) {
         if (clazz.isInterface()) return;
         Class superClass = clazz.getSuperClass();
-        if (null != superClass && !superClass.getInitStarted()) {
+        if (null != superClass && !superClass.isInitStarted()) {
             initClass(thread, superClass);
         }
     }

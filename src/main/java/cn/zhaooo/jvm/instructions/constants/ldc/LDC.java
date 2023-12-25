@@ -18,7 +18,7 @@ public class LDC extends Index8Instruction {
         //  从当前类的运行时常量池中取出常量
         OperandStack stack = frame.getOperandStack();
         Class clazz = frame.getMethod().getClazz();
-        RunTimeConstantPool runTimeConstantPool = frame.getMethod().getClazz().getConstantPool();
+        RunTimeConstantPool runTimeConstantPool = frame.getMethod().getClazz().getRunTimeConstantPool();
         java.lang.Object c = runTimeConstantPool.getConstants(idx);
 
         if (c instanceof Integer) {

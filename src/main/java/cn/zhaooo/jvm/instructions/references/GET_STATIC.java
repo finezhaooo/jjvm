@@ -18,13 +18,13 @@ public class GET_STATIC extends Index16Instruction {
 
     @Override
     public void execute(Frame frame) {
-        RunTimeConstantPool runTimeConstantPool = frame.getMethod().getClazz().getConstantPool();
+        RunTimeConstantPool runTimeConstantPool = frame.getMethod().getClazz().getRunTimeConstantPool();
         FieldRef ref = (FieldRef) runTimeConstantPool.getConstants(this.idx);
         Field field = ref.resolvedFieldRef();
         Class clazz = field.getClazz();
 
         // 先判断当前类是否已经初始化
-        if (!clazz.getInitStarted()) {
+        if (!clazz.isInitStarted()) {
             frame.revertNextPC();
             ClassInitLogic.initClass(frame.getThread(), clazz);
             return;

@@ -23,7 +23,7 @@ public class PUT_STATIC extends Index16Instruction {
         //  拿到当前方法、当前类和当前常量池
         Method currentMethod = frame.getMethod();
         Class currentClazz = currentMethod.getClazz();
-        RunTimeConstantPool runTimeConstantPool = currentClazz.getConstantPool();
+        RunTimeConstantPool runTimeConstantPool = currentClazz.getRunTimeConstantPool();
 
         //  从当前类的运行时常量池中找到一个字段符号引用
         FieldRef fieldRef = (FieldRef) runTimeConstantPool.getConstants(idx);
@@ -33,7 +33,7 @@ public class PUT_STATIC extends Index16Instruction {
         Class clazz = field.getClazz();
 
 
-        if (!clazz.getInitStarted()) {
+        if (!clazz.isInitStarted()) {
             frame.revertNextPC();
             ClassInitLogic.initClass(frame.getThread(), clazz);
             return;

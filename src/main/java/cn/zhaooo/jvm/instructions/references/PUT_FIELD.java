@@ -21,7 +21,7 @@ public class PUT_FIELD extends Index16Instruction {
     public void execute(Frame frame) {
         Method currentMethod = frame.getMethod();
         Class currentClazz = currentMethod.getClazz();
-        RunTimeConstantPool runTimeConstantPool = currentClazz.getConstantPool();
+        RunTimeConstantPool runTimeConstantPool = currentClazz.getRunTimeConstantPool();
         FieldRef fieldRef = (FieldRef) runTimeConstantPool.getConstants(this.idx);
         Field field = fieldRef.resolvedFieldRef();
 

@@ -21,7 +21,7 @@ public class INVOKE_VIRTUAL extends Index16Instruction {
     public void execute(Frame frame) {
         // 调用者
         Class currentClass = frame.getMethod().getClazz();
-        RunTimeConstantPool runTimeConstantPool = currentClass.getConstantPool();
+        RunTimeConstantPool runTimeConstantPool = currentClass.getRunTimeConstantPool();
         MethodRef methodRef = (MethodRef) runTimeConstantPool.getConstants(idx);
 
         Method resolvedMethod = methodRef.resolvedMethodRef();

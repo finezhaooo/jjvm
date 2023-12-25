@@ -23,10 +23,10 @@ import java.util.Map;
 public class ClassLoader {
 
     // 类路径
-    private Classpath classpath;
+    private final Classpath classpath;
     // 已经加载的类数据，key是类的完全限定名，方法区的具体实现
     // 不同的类加载器即使加载同一个类名也是不同的类即
-    private Map<String, Class> classMap;
+    private final Map<String, Class> classMap;
 
     public ClassLoader(Classpath classpath) {
         this.classpath = classpath;
@@ -104,10 +104,10 @@ public class ClassLoader {
      */
     private Class defineClass(byte[] data) throws Exception {
         Class clazz = parseClass(data);
-        clazz.loader = this;
+        clazz.setLoader(this);
         resolveSuperClass(clazz);
         resolveInterfaces(clazz);
-        classMap.put(clazz.name, clazz);
+        classMap.put(clazz.getName(), clazz);
         return clazz;
     }
 
@@ -124,8 +124,8 @@ public class ClassLoader {
      */
     private void resolveSuperClass(Class clazz) throws Exception {
         // Object没有父类
-        if (!clazz.name.equals("java/lang/Object")) {
-            clazz.superClass = clazz.loader.loadClass(clazz.superClassName);
+        if (!clazz.getName().equals("java/lang/Object")) {
+            clazz.setSuperClass(clazz.getLoader().loadClass(clazz.getSuperClassName()));
         }
     }
 
@@ -133,11 +133,11 @@ public class ClassLoader {
      * 解析接口
      */
     private void resolveInterfaces(Class clazz) throws Exception {
-        int interfaceCount = clazz.interfaceNames.length;
+        int interfaceCount = clazz.getInterfaceNames().length;
         if (interfaceCount > 0) {
-            clazz.interfaces = new Class[interfaceCount];
+            clazz.setInterfaces(new Class[interfaceCount]);
             for (int i = 0; i < interfaceCount; i++) {
-                clazz.interfaces[i] = clazz.loader.loadClass(clazz.interfaceNames[i]);
+                clazz.getInterfaces()[i] = clazz.getLoader().loadClass(clazz.getInterfaceNames()[i]);
             }
         }
     }
@@ -174,10 +174,10 @@ public class ClassLoader {
     private void calcInstanceFieldSlotIds(Class clazz) {
         int slotId = 0;
         // 父类实例字段
-        if (clazz.superClass != null) {
-            slotId = clazz.superClass.instanceSlotCount;
+        if (clazz.getSuperClass() != null) {
+            slotId = clazz.getSuperClass().getInstanceSlotCount();
         }
-        for (Field field : clazz.fields) {
+        for (Field field : clazz.getFields()) {
             if (!field.isStatic()) {
                 field.slotId = slotId;
                 slotId++;
@@ -188,7 +188,7 @@ public class ClassLoader {
             }
         }
         // 当前类以及其父类的实例字段的个数
-        clazz.instanceSlotCount = slotId;
+        clazz.setInstanceSlotCount(slotId);
     }
 
     /**
@@ -196,7 +196,7 @@ public class ClassLoader {
      */
     private void calcStaticFieldSlotIds(Class clazz) {
         int slotId = 0;
-        for (Field field : clazz.fields) {
+        for (Field field : clazz.getFields()) {
             if (field.isStatic()) {
                 field.slotId = slotId;
                 slotId++;
@@ -205,15 +205,15 @@ public class ClassLoader {
                 }
             }
         }
-        clazz.staticSlotCount = slotId;
+        clazz.setStaticSlotCount(slotId);
     }
 
     /**
      * 给类变量分配空间
      */
     private void allocAndInitStaticVars(Class clazz) {
-        clazz.staticVars = new Slots(clazz.staticSlotCount);
-        for (Field field : clazz.fields) {
+        clazz.setStaticVars(new Slots(clazz.getStaticSlotCount()));
+        for (Field field : clazz.getFields()) {
             if (field.isStatic() && field.isFinal()) {
                 initStaticFinalVar(clazz, field);
             }
@@ -224,8 +224,8 @@ public class ClassLoader {
      * 给类变量赋予初始值
      */
     private void initStaticFinalVar(Class clazz, Field field) {
-        Slots staticVars = clazz.staticVars;
-        RunTimeConstantPool constantPool = clazz.runTimeConstantPool;
+        Slots staticVars = clazz.getStaticVars();
+        RunTimeConstantPool constantPool = clazz.getRunTimeConstantPool();
         int cpIdx = field.getConstValueIndex();
         int slotId = field.getSlotId();
         if (cpIdx > 0) {

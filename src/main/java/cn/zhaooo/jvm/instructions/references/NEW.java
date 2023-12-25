@@ -14,7 +14,7 @@ public class NEW extends Index16Instruction {
     @Override
     public void execute(Frame frame) {
         //  从当前类的运行时常量池中找到一个类符号引用
-        RunTimeConstantPool cp = frame.getMethod().getClazz().getConstantPool();
+        RunTimeConstantPool cp = frame.getMethod().getClazz().getRunTimeConstantPool();
         ClassRef classRef = (ClassRef) cp.getConstants(idx);
 
         //  解析类符号引用，拿到类数据

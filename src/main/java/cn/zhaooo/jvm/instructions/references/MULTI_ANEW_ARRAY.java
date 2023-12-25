@@ -25,7 +25,7 @@ public class MULTI_ANEW_ARRAY implements Instruction {
 
     @Override
     public void execute(Frame frame) {
-        RunTimeConstantPool runTimeConstantPool = frame.getMethod().getClazz().getConstantPool();
+        RunTimeConstantPool runTimeConstantPool = frame.getMethod().getClazz().getRunTimeConstantPool();
         ClassRef classRef = (ClassRef) runTimeConstantPool.getConstants((int) idx);
         Class arrClass = classRef.getResolvedClass();
 
