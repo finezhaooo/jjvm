@@ -3,6 +3,7 @@ package cn.zhaooo.jvm;
 import cn.zhaooo.jvm.classpath.Classpath;
 import cn.zhaooo.jvm.rdta.heap.methodarea.Class;
 import cn.zhaooo.jvm.rdta.heap.methodarea.Method;
+import cn.zhaooo.jvm.tools.LogTool;
 
 public class Main {
 
@@ -30,6 +31,10 @@ public class Main {
         Method mainMethod = mainClass.getMainMethod();
         if (null == mainMethod) {
             throw new RuntimeException("Main method not found in class " + cmd.mainClassAndArgs.get(0));
+        }
+        // 打印类信息
+        if (cmd.debug) {
+            LogTool.printClassInfo(mainClass.getClassFile());
         }
         new Interpreter(mainMethod, cmd.debug, cmd.mainClassAndArgs.subList(1, cmd.mainClassAndArgs.size()).toString());
     }

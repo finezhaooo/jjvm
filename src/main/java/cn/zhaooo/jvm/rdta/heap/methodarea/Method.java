@@ -15,9 +15,9 @@ import java.util.List;
  */
 public class Method extends ClassMember {
 
-    public int maxStack;        //  操作数栈大小
-    public int maxLocals;       //  局部变量表大小
-    public byte[] code;         //  方法字节码
+    private int maxStack;        //  操作数栈大小
+    private int maxLocals;       //  局部变量表大小
+    private byte[] code;         //  方法字节码
     private int argSlotCount;   //  参数在局部变量表中占用的位置即args_size
 
     /**

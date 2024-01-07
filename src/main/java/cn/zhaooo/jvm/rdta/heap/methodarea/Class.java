@@ -28,11 +28,13 @@ public class Class {
     private int staticSlotCount;                         //  类变量占据的空间大小
     private Slots staticVars;                            //  静态变量
     private boolean initStarted;                         //  类是否初始化
+    private ClassFile classFile;
 
     /**
      * 基于加载的类文件构造class
      */
     public Class(ClassFile classFile) {
+        this.classFile = classFile;
         accessFlags = classFile.getAccessFlags();
         name = classFile.getClassName();
         superClassName = classFile.getSuperClassName();
@@ -327,5 +329,9 @@ public class Class {
 
     public void setInitStarted(boolean initStarted) {
         this.initStarted = initStarted;
+    }
+
+    public ClassFile getClassFile() {
+        return classFile;
     }
 }

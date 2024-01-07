@@ -50,4 +50,7 @@ public class Thread {
     public boolean isStackEmpty() {
         return stack.isEmpty();
     }
+    public JVMStack getStack() {
+        return stack;
+    }
 }

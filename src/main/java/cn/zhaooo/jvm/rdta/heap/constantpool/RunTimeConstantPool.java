@@ -17,7 +17,7 @@ public class RunTimeConstantPool {
     // class文件对应的类
     private Class clazz;
     // 保存的是常量数据，使用java.lang.Object保存
-    private final Object[] constants;
+    private final java.lang.Object[] constants;
 
     /**
      * 将class文件中的常量池转换成运行时常量池

@@ -10,10 +10,10 @@ import cn.zhaooo.jvm.rdta.heap.constantpool.AccessFlags;
  * @Date: 2023/08/07 16:46
  */
 public class ClassMember {
-    public int accessFlags;     //  访问标志
-    public String name;         //  字段或方法名
-    public String descriptor;   //  字段或方法描述符
-    public Class clazz;         //  字段或方法所属的类
+    protected int accessFlags;     //  访问标志
+    protected String name;         //  字段或方法名
+    protected String descriptor;   //  字段或方法描述符
+    protected Class clazz;         //  字段或方法所属的类
 
     /**
      * 从class文件中复制数据

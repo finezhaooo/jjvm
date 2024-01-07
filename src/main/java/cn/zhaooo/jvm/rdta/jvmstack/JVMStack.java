@@ -50,4 +50,8 @@ public class JVMStack {
     public boolean isEmpty(){
         return this._top == null;
     }
+
+    public int getSize() {
+        return size;
+    }
 }

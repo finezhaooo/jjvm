@@ -23,8 +23,8 @@ public class Frame {
     public Frame(Thread thread, Method method) {
         this.thread = thread;
         this.method = method;
-        localVars = new LocalVars(method.maxLocals);
-        operandStack = new OperandStack(method.maxStack);
+        localVars = new LocalVars(method.getMaxLocals());
+        operandStack = new OperandStack(method.getMaxStack());
     }
 
     public LocalVars getLocalVars() {
@@ -45,6 +45,10 @@ public class Frame {
 
     public int getNextPC() {
         return nextPC;
+    }
+
+    public Frame getLower() {
+        return lower;
     }
 
     public void setNextPC(int nextPC) {

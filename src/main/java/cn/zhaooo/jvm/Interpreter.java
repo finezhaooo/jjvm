@@ -1,7 +1,5 @@
 package cn.zhaooo.jvm;
 
-import cn.zhaooo.jvm.rdta.jvmstack.LocalVars;
-import cn.zhaooo.jvm.rdta.jvmstack.OperandStack;
 import cn.zhaooo.jvm.instructions.Factory;
 import cn.zhaooo.jvm.instructions.base.BytecodeReader;
 import cn.zhaooo.jvm.instructions.base.Instruction;
@@ -10,6 +8,7 @@ import cn.zhaooo.jvm.rdta.heap.methodarea.Class;
 import cn.zhaooo.jvm.rdta.heap.methodarea.Object;
 import cn.zhaooo.jvm.rdta.jvmstack.Frame;
 import cn.zhaooo.jvm.rdta.Thread;
+import cn.zhaooo.jvm.tools.LogTool;
 
 /**
  * @ClassName: Interpreter
@@ -59,19 +58,19 @@ public class Interpreter {
             //  根据pc从当前方法中解码出一条指令
             int pc = frame.getNextPC();
             thread.setPC(pc);
-            reader.reset(frame.getMethod().code, pc);
+            reader.reset(frame.getMethod().getCode(), pc);
             byte opcode = reader.readByte();
             Instruction inst = Factory.create(opcode);
 
             if (null == inst) {
-                System.err.println("Unsupported opcode " + byteToHexString(new byte[]{opcode}));
+                System.err.println("Unsupported opcode " + LogTool.byteToHexString(new byte[]{opcode}));
                 break;
             }
             inst.fetchOperands(reader);
             frame.setNextPC(reader.getPC());
 
             if (logInst) {
-                logInstruction(inst, frame);
+                LogTool.logInstruction(inst, frame);
             }
 
             //  执行
@@ -82,29 +81,5 @@ public class Interpreter {
                 break;
             }
         }
-    }
-
-    private void logInstruction(Instruction instruction, Frame stackFrame) {
-        Method myMethod = stackFrame.getMethod();
-        String thisClassName = myMethod.getClazz().getName();
-        String methodName = myMethod.getName();
-        int pc = stackFrame.getThread().getPC();
-        System.out.println((thisClassName + "." + methodName + "() #" + pc + " -> " + instruction.getClass().getSimpleName()));
-        stackFrame.getOperandStack().print();
-        stackFrame.getOperandStack().print();
-    }
-
-    private static String byteToHexString(byte[] codes) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("0x");
-        for (byte b : codes) {
-            int value = b & 0xFF;
-            String strHex = Integer.toHexString(value);
-            if (strHex.length() < 2) {
-                strHex = "0" + strHex;
-            }
-            sb.append(strHex);
-        }
-        return sb.toString();
     }
 }

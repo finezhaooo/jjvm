@@ -9,9 +9,9 @@ import cn.zhaooo.jvm.rdta.heap.methodarea.Class;
  * @Date: 2023/08/07 23:22
  */
 public class SymRef {
-    public RunTimeConstantPool runTimeConstantPool; //  运行时常量池
-    public String className;                        //  类的完全限定名
-    public Class resolvedClass;                     //  解析后的类
+    protected RunTimeConstantPool runTimeConstantPool; //  运行时常量池
+    protected String className;                        //  类的完全限定名
+    protected Class resolvedClass;                     //  解析后的类
 
     /**
      * 解析类符号引用 将其转换为直接引用
@@ -34,5 +34,13 @@ public class SymRef {
             throw new RuntimeException("Class [" + currentClass + "] cannot access Class [" + resolvedClass + "]");
         }
         return resolvedClass;
+    }
+
+    public RunTimeConstantPool getRunTimeConstantPool() {
+        return runTimeConstantPool;
+    }
+
+    public String getClassName() {
+        return className;
     }
 }

@@ -17,7 +17,7 @@ public class MethodLookup {
     static public Method lookupMethodInClass(Class clazz, String name, String descriptor) {
         for (Class c = clazz; c != null; c = c.getSuperClass()) {
             for (Method method : c.getMethods()) {
-                if (method.name.equals(name) && method.descriptor.equals(descriptor)) {
+                if (method.getName().equals(name) && method.getDescriptor().equals(descriptor)) {
                     return method;
                 }
             }
@@ -31,7 +31,7 @@ public class MethodLookup {
     static public Method lookupMethodInInterfaces(Class[] ifaces, String name, String descriptor) {
         for (Class inface : ifaces) {
             for (Method method : inface.getMethods()) {
-                if (method.name.equals(name) && method.descriptor.equals(descriptor)) {
+                if (method.getName().equals(name) && method.getDescriptor().equals(descriptor)) {
                     return method;
                 }
             }

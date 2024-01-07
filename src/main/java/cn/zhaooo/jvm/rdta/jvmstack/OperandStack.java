@@ -85,6 +85,10 @@ public class OperandStack {
         return slots[--top];
     }
 
+    public int getTop() {
+        return top;
+    }
+
     public Slot[] getSlots() {
         return slots;
     }
@@ -94,18 +98,6 @@ public class OperandStack {
      */
     public Object getRefFromTop(int n) {
         return slots[top - 1 - n].ref;
-    }
-
-    public void print() {
-        System.out.println("+----------operand stack----------");
-        for (int i = 0; i < slots.length; i++) {
-            if (slots[i].ref!=null) {
-                System.out.println("|    Ref:slot[" + i + "]=" + slots[i].ref.getClazz().getName());
-            } else {
-                System.out.println("|    Value:slot[" + i + "]=" + slots[i].val);
-            }
-        }
-        System.out.println("+----------operand stack----------");
     }
 
 }

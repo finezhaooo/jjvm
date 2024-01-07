@@ -76,16 +76,4 @@ public class LocalVars {
     public void setSlot(int idx, Slot slot) {
         slots[idx] = slot;
     }
-
-    public void print() {
-        System.out.println("+----------local variable table----------");
-        for (int i = 0; i < slots.length; i++) {
-            if (slots[i].ref != null) {
-                System.out.println("|    Ref:slot[" + i + "]=" + slots[i].ref.getClazz().getName());
-            } else {
-                System.out.println("|    Value:slot[" + i + "]=" + slots[i].val);
-            }
-        }
-        System.out.println("+----------local variable table----------");
-    }
 }

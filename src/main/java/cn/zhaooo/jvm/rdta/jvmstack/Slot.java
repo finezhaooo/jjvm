@@ -17,4 +17,12 @@ public class Slot {
     // 保存对象引用
     // 也可以使用句柄和句柄池保存
     public Object ref;
+
+    public Slot() {
+    }
+
+    public Slot(int val, Object ref) {
+        this.val = val;
+        this.ref = ref;
+    }
 }

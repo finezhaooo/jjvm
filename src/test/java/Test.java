@@ -1,4 +1,4 @@
-import static java.lang.ClassLoader.getSystemClassLoader;
+import java.util.Arrays;
 
 /**
  * @ClassName: Test
@@ -8,7 +8,7 @@ import static java.lang.ClassLoader.getSystemClassLoader;
  */
 public class Test {
     public static void main(String[] args) {
-        String str = "hello";
-        System.out.println(str.substring(1, 3));
+
     }
 }
+

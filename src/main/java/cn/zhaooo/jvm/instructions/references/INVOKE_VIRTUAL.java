@@ -11,6 +11,9 @@ import cn.zhaooo.jvm.rdta.heap.methodarea.StringPool;
 import cn.zhaooo.jvm.rdta.heap.util.MethodLookup;
 import cn.zhaooo.jvm.rdta.jvmstack.Frame;
 import cn.zhaooo.jvm.rdta.jvmstack.OperandStack;
+import cn.zhaooo.jvm.tools.LogTool;
+
+import java.util.function.Consumer;
 
 /**
  * 调用对象实例方法
@@ -36,7 +39,11 @@ public class INVOKE_VIRTUAL extends Index16Instruction {
             // 但是它有一些静态字段，比如out，它是一个PrintStream类型的对象。
             // 所以当我们调用System.out.println时，我们实际上是调用了PrintStream类的println方法，这个方法是一个实例方法，所以需要用invokevirtual指令来调用。
             if ("println".equals(methodRef.getName())) {
-                _println(frame.getOperandStack(), methodRef.getDescriptor());
+                LogTool.hackPrint(frame.getOperandStack(), methodRef.getDescriptor(), System.out::println);
+                return;
+            }
+            if ("print".equals(methodRef.getName())) {
+                LogTool.hackPrint(frame.getOperandStack(), methodRef.getDescriptor(), System.out::print);
                 return;
             }
             throw new NullPointerException();
@@ -64,39 +71,5 @@ public class INVOKE_VIRTUAL extends Index16Instruction {
 
         //  一切正常，调用方法
         MethodInvokeLogic.invokeMethod(frame, methodToBeInvoked);
-    }
-
-    //  hack
-    private void _println(OperandStack stack, String descriptor) {
-        switch (descriptor) {
-            case "(Z)V":
-                System.out.println(stack.popInt() != 0);
-                break;
-            case "(C)V":
-            case "(I)V":
-            case "(B)V":
-            case "(S)V":
-                System.out.println(stack.popInt());
-                break;
-            case "(F)V":
-                System.out.println(stack.popFloat());
-                break;
-            case "(J)V":
-                System.out.println(stack.popLong());
-                break;
-            case "(D)V":
-                System.out.println(stack.popDouble());
-                break;
-            case "(Ljava/lang/String;)V":
-                Object jStr = stack.popRef();
-                String goStr = StringPool.goString(jStr);
-                System.out.println(goStr);
-                break;
-            default:
-                System.out.println(descriptor);
-                break;
-        }
-        // 出栈this引用
-        stack.popRef();
     }
 }

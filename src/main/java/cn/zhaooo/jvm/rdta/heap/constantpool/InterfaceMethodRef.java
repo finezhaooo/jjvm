@@ -66,7 +66,7 @@ public class InterfaceMethodRef extends SymRef {
      */
     private Method lookupInterfaceMethod(Class iface, String name, String descriptor) {
         for (Method method : iface.getMethods()) {
-            if (method.name.equals(name) && method.descriptor.equals(descriptor)) {
+            if (method.getName().equals(name) && method.getDescriptor().equals(descriptor)) {
                 return method;
             }
         }

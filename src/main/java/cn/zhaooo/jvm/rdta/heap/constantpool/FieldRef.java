@@ -55,7 +55,7 @@ public class FieldRef extends SymRef {
 
     private Field lookupField(Class c, String name, String descriptor) {
         for (Field field : c.getFields()) {
-            if (field.name.equals(name) && field.descriptor.equals(descriptor)) {
+            if (field.getName().equals(name) && field.getDescriptor().equals(descriptor)) {
                 return field;
             }
         }
