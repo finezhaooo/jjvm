@@ -22,8 +22,10 @@ public class DUP2_X1 extends NoOperandsInstruction {
         Slot slot1 = operandStack.popSlot();
         Slot slot2 = operandStack.popSlot();
         Slot slot3 = operandStack.popSlot();
-        operandStack.pushSlot(slot2);
-        operandStack.pushSlot(slot1);
+        Slot copy1 = new Slot(slot1.val, slot1.ref);
+        Slot copy2 = new Slot(slot2.val, slot2.ref);
+        operandStack.pushSlot(copy2);
+        operandStack.pushSlot(copy1);
         operandStack.pushSlot(slot3);
         operandStack.pushSlot(slot2);
         operandStack.pushSlot(slot1);

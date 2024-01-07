@@ -1,6 +1,7 @@
 package cn.zhaooo.jvm.instructions.constants.ldc;
 
 import cn.zhaooo.jvm.instructions.base.impl.Index8Instruction;
+import cn.zhaooo.jvm.rdta.heap.constantpool.ClassRef;
 import cn.zhaooo.jvm.rdta.heap.constantpool.RunTimeConstantPool;
 import cn.zhaooo.jvm.rdta.heap.methodarea.Class;
 import cn.zhaooo.jvm.rdta.heap.methodarea.Object;
@@ -34,6 +35,13 @@ public class LDC extends Index8Instruction {
         if (c instanceof String) {
             Object internedStr = StringPool.jString(clazz.getLoader(), (String) c);
             stack.pushRef(internedStr);
+            return;
+        }
+
+        // hack
+        // 不支持加载类的引用
+        if (c instanceof ClassRef) {
+            // skip
             return;
         }
         throw new ClassFormatError(c.toString());

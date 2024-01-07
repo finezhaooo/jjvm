@@ -20,7 +20,9 @@ public class DUP extends NoOperandsInstruction {
     public void execute(Frame frame) {
         OperandStack operandStack = frame.getOperandStack();
         Slot slot = operandStack.popSlot();
+        // 如果不new一个copy，两个slot指向同一个对象会导致炒作一个slot时另一个slot也改变，出现bug
+        Slot copy = new Slot(slot.val, slot.ref);
         operandStack.pushSlot(slot);
-        operandStack.pushSlot(slot);
+        operandStack.pushSlot(copy);
     }
 }
