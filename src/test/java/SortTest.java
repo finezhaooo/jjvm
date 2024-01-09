@@ -5,7 +5,7 @@
  * @Date: 2023/12/25 18:25
  */
 public class SortTest {
-    public static void insertSort(int[] arr) {
+    public void insertSort(int[] arr) {
         int len = arr.length;
         int i, j, k;
         for (i = 1; i < len; i++) {
@@ -25,15 +25,6 @@ public class SortTest {
                 // 将a[i]放到正确位置上
                 arr[k + 1] = temp;
             }
-        }
-    }
-
-
-    public static void main(String[] args) {
-        int[] arr = new int[]{3, 8, 6, 2, 1, 5, 7, 4};
-        insertSort(arr);
-        for (int i = 0; i < arr.length; i++) {
-            System.out.println(arr[i]);
         }
     }
 }

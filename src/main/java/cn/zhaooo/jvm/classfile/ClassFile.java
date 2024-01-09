@@ -29,14 +29,14 @@ import cn.zhaooo.jvm.classfile.attributeinfo.AttributeInfo;
 public class ClassFile {
     private int minorVersion;               //  次版本号
     private int majorVersion;               //  主版本号
-    private ConstantPool constantPool;      //  常量池
-    private int accessFlags;                //  类访问标志
-    private int thisClassIdx;               //  类索引
-    private int superClassIdx;              //  超类索引
-    private int[] interfaces;               //  接口索引表
-    private MemberInfo[] fields;            //  字段表
-    private MemberInfo[] methods;           //  方法表
-    private AttributeInfo[] attributes;     //  属性表
+    private final ConstantPool constantPool;      //  常量池
+    private final int accessFlags;                //  类访问标志
+    private final int thisClassIdx;               //  类索引
+    private final int superClassIdx;              //  超类索引
+    private final int[] interfaces;               //  接口索引表
+    private final MemberInfo[] fields;            //  字段表
+    private final MemberInfo[] methods;           //  方法表
+    private final AttributeInfo[] attributes;     //  属性表
 
     public ClassFile(byte[] classData) {
         ClassReader reader = new ClassReader(classData);

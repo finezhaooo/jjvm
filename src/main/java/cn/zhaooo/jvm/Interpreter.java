@@ -17,7 +17,7 @@ import cn.zhaooo.jvm.tools.LogTool;
  * @Date: 2023/08/21 15:52
  */
 public class Interpreter {
-    Interpreter(Method method, boolean logInst, String args) {
+    public Interpreter(Method method, boolean logInst, String args) {
         //  创建一个Thread实例
         Thread thread = new Thread();
         //  创建一个帧并推入Java虚拟机栈

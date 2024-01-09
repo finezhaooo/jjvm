@@ -97,7 +97,7 @@ public class Classpath {
      * 最终都会调用DirEntry或者ZipEntry的readClass方法
      * 模拟双亲委派模型：因为jjvm的ClassLoader没有parent，故不能调用parent的loadClass方法。只能在loadClass调用readClass时，模拟双亲委派模型。
      */
-    public byte[] getClassBytes(String className) throws Exception {
+    public byte[] getClassBytes(String className) {
         // 将类名转换为文件名
         className = className + ".class";
 
@@ -115,7 +115,12 @@ public class Classpath {
             // 忽略
         }
 
-        // 在用户类路径中查找类
-        return userClasspath.readClass(className);
+        try {
+            // 在用户类路径中查找类
+            return userClasspath.readClass(className);
+        } catch (Exception e) {
+            // 在用户类路径中未找到类
+        }
+        return null;
     }
 }

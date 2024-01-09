@@ -26,7 +26,7 @@ public class ClassLoader {
     private final Classpath classpath;
     // 已经加载的类数据，key是类的完全限定名，方法区的具体实现
     // 不同的类加载器即使加载同一个类名也是不同的类即
-    private final Map<String, Class> classMap;
+    protected Map<String, Class> classMap;
 
     public ClassLoader(Classpath classpath) {
         this.classpath = classpath;
@@ -57,7 +57,8 @@ public class ClassLoader {
         try {
             return loadNonArrayClass(className);
         } catch (Exception e) {
-            System.err.println("unable to load class " + className);
+            //  系统没有此类，可能是OnlineLoader加载
+            //  System.err.println("unable to load class " + className);
         }
         return null;
     }
@@ -70,7 +71,7 @@ public class ClassLoader {
      * @param className 数组类的名称，然后根据名称中的方括号个数来确定数组的维度，以及根据名称中的元素类型来确定数组的组件类型。
      * @return
      */
-    private Class loadArrayClass(String className) {
+    protected Class loadArrayClass(String className) {
         Class clazz = new Class(AccessFlags.ACC_PUBLIC,
                 className,
                 this,
@@ -84,9 +85,9 @@ public class ClassLoader {
     /**
      * 加载普通类
      */
-    private Class loadNonArrayClass(String className) throws Exception {
+    protected Class loadNonArrayClass(String className) throws Exception {
         //  找到class文件并把数据读取到内存
-        byte[] data = classpath.getClassBytes(className);
+        byte[] data = getClassBytes(className);
         if (null == data) {
             throw new ClassNotFoundException(className);
         }
@@ -97,6 +98,10 @@ public class ClassLoader {
         //  链接
         link(clazz);
         return clazz;
+    }
+
+    protected byte[] getClassBytes(String className) {
+        return classpath.getClassBytes(className);
     }
 
     /**

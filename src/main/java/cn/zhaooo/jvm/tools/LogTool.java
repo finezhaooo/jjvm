@@ -106,18 +106,18 @@ public class LogTool {
 
     public static void printClassInfo(ClassFile cf) {
         System.out.println("version: " + cf.getMajorVersion() + "." + cf.getMinorVersion());
-        System.out.println("constants count：" + cf.getConstantPool().getSize());
-        System.out.format("access flags：0x%x\n", cf.getAccessFlags());
-        System.out.println("this class：" + cf.getClassName());
-        System.out.println("super class：" + cf.getSuperClassName());
-        System.out.println("interfaces：" + Arrays.toString(cf.getInterfaceNames()));
-        System.out.println("fields count：" + cf.getFields().length);
+        System.out.println("constants count: " + cf.getConstantPool().getSize());
+        System.out.format("access flags: 0x%x\n", cf.getAccessFlags());
+        System.out.println("this class: " + cf.getClassName());
+        System.out.println("super class: " + cf.getSuperClassName());
+        System.out.println("interfaces: " + Arrays.toString(cf.getInterfaceNames()));
+        System.out.println("fields count: " + cf.getFields().length);
         for (MemberInfo memberInfo : cf.getFields()) {
-            System.out.format("%s\t\t%s\n", memberInfo.getName(), memberInfo.getDescriptor());
+            System.out.format("%s  %s\n", memberInfo.getName(), memberInfo.getDescriptor());
         }
         System.out.println("methods count: " + cf.getMethods().length);
         for (MemberInfo memberInfo : cf.getMethods()) {
-            System.out.format("%s\t\t%s\n", memberInfo.getName(), memberInfo.getDescriptor());
+            System.out.format("%s  %s\n", memberInfo.getName(), memberInfo.getDescriptor());
         }
         System.out.println("constant pool:");
         // 从1开始,0是无效索引，表示不指向任何常量
