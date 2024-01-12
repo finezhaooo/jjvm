@@ -17,9 +17,12 @@ import cn.zhaooo.jvm.tools.LogTool;
  * @Date: 2023/08/21 15:52
  */
 public class Interpreter {
-    public Interpreter(Method method, boolean logInst, String args) {
+    public Interpreter(Method method, boolean logInst, String args, StringBuilder out) {
         //  创建一个Thread实例
         Thread thread = new Thread();
+        if (null != out) {
+            thread.setOut(out);
+        }
         //  创建一个帧并推入Java虚拟机栈
         Frame frame = thread.newFrame(method);
         thread.pushFrame(frame);
@@ -70,7 +73,7 @@ public class Interpreter {
             frame.setNextPC(reader.getPC());
 
             if (logInst) {
-                LogTool.logInstruction(inst, frame);
+                System.out.println(LogTool.logInstruction(inst, frame));
             }
 
             //  执行
@@ -81,5 +84,41 @@ public class Interpreter {
                 break;
             }
         }
+    }
+
+    public static Thread createThread(Method method, StringBuilder out) {
+        //  创建一个Thread实例
+        Thread thread = new Thread();
+        thread.setOut(out);
+        //  创建一个帧并推入Java虚拟机栈
+        Frame frame = thread.newFrame(method);
+        thread.pushFrame(frame);
+        return thread;
+    }
+
+    public static String step(Thread thread) {
+        BytecodeReader reader = new BytecodeReader();
+        Frame frame = thread.currentFrame();
+        int pc = frame.getNextPC();
+        thread.setPC(pc);
+        reader.reset(frame.getMethod().getCode(), pc);
+        byte opcode = reader.readByte();
+        Instruction inst = Factory.create(opcode);
+
+        if (null == inst) {
+            return "Unsupported opcode " + LogTool.byteToHexString(new byte[]{opcode});
+        }
+        inst.fetchOperands(reader);
+        frame.setNextPC(reader.getPC());
+
+        String log = LogTool.logInstruction(inst, frame);
+        //  执行
+        inst.execute(frame);
+
+        //  指令执行完毕之后，判断Java虚拟机栈中是否还有帧
+        if (thread.isStackEmpty()) {
+            return null;
+        }
+        return log;
     }
 }

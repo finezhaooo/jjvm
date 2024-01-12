@@ -24,7 +24,7 @@ public class CompilerTest {
         Map<String, String> strings = new HashMap<>();
         strings.put("hello", "public class hello{public static void main(String[] args){System.out.println(\"hello world\");}}");
         strings.put("hello2", "public class hello2{public static void main(String[] args){System.out.println(\"hello world\");}}");
-        Map<String, byte[]> code = StringSourceCompiler.compile(strings, collector);
+        Map<String, byte[]> code = StringSourceCompiler.compileAll(strings, collector);
         if (code == null || code.isEmpty()) {
             List<Diagnostic<? extends JavaFileObject>> compileError = collector.getDiagnostics();
             StringBuilder compileErrorRes = new StringBuilder();
@@ -45,6 +45,8 @@ public class CompilerTest {
         WebLoader webLoader = new WebLoader(classLoader);
         webLoader.getByteMap().putAll(code);
         Class mainClass = webLoader.loadClass("hello");
-        new Interpreter(mainClass.getMainMethod(), true, null);
+        StringBuilder out = new StringBuilder();
+        new Interpreter(mainClass.getMainMethod(), true, null, out);
+        System.out.println(out.append("========="));
     }
 }

@@ -1,0 +1,192 @@
+body, input, textarea {
+    font-size: 12px;
+    font-family: monospace;
+}
+
+.inputArea {
+    min-width: 600px;
+    min-height: 100px;
+    tab-size: 4;
+    padding: 0 0 0 0;
+    top: 0;
+    left: 0;
+}
+
+.inputBox {
+    z-index: 0;
+    background: transparent;
+    outline: none;
+    border: none;
+    min-height: 250px;
+}
+
+textarea.inputBox {
+    resize: none;
+}
+
+.scrollable {
+    width: 600px;
+    height: 250px;
+    overflow: scroll;
+    border: 1px solid;
+}
+
+.inputContainer {
+    overflow: hidden;
+    position: relative;
+}
+
+.btn {
+    display: inline-block;
+    font-size: 12px;
+}
+.btn a {
+    cursor: default;
+}
+
+.btn a {
+    color: black;
+    text-decoration: none;
+}
+
+.btn a:hover {
+    color: white;
+    background-color: black;
+}
+
+.activeTab {
+    border-top: 1px solid;
+    border-left: 1px solid;
+    border-right: 1px solid;
+    border-bottom: none;
+}
+
+.outputArea {
+    overflow: scroll;
+    width: 600px;
+    height: 216px;
+}
+
+.outputText {
+    width: inherit;
+    height: inherit;
+    display: inline-block;
+    font-size: 12px;
+    white-space: pre-wrap;
+    border: none;
+}
+
+.outputText:focus {
+    outline: none;
+}
+
+.consoleText {
+    white-space: pre;
+}
+
+.tabContent {
+    display: none;
+}
+.tabLabels {
+    position: relative;
+}
+.allTabs {
+    width: 600px;
+    height: 230px;
+    border: 1px solid;
+    display: inline-block;
+}
+
+.userInput {
+    border: none;
+    outline: none;
+    margin: 0;
+    padding: 0;
+    width: 1px;
+}
+
+#panels {
+    width: 1150px;
+    display: inline-block;
+}
+
+#panelMiddle .content {
+    padding-left: .5em;
+    padding-right: .5em;
+    padding-bottom: .5em;
+}
+
+#panelRight .content {
+    overflow: auto;
+    width: 340px;
+    height: 520px;
+}
+
+#panelLeft .content {
+    height: 510px;
+    width: 150px;
+    overflow-x: hidden;
+}
+
+#fileList {
+    min-width: 150px;
+}
+
+div.panel {
+    height: 550px;
+    border: 4px double;
+    margin-top: 5px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+div.panel div.label {
+    text-align: center;
+    position: relative;
+    top: -.75em;
+}
+div.panel div.label span {
+    padding-left: .5em;
+    padding-right: .5em;
+    background-color: white;
+}
+
+.fileEntry a {
+    color: black;
+    text-decoration: none;
+    cursor: default;
+}
+
+.fileEntry:hover {
+    background-color: black;
+    color: white;
+}
+
+.fileEntry:hover input {
+    background-color: black;
+    color: white;
+}
+
+.fileEntry:hover a {
+    background-color: black;
+    color: white;
+}
+
+.fileEntry input {
+    width:120px;
+    cursor: default;
+}
+
+.fileEntry form {
+    display: inline-block;
+    margin: 0;
+}
+
+.buttonBar {
+    height:14px;
+    font-size: 0;
+}
+
+#heapSpan {
+    white-space: pre-wrap;
+}

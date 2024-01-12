@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>jjvm</title>
+    <script type="text/javascript" src="js/jquery-3.7.1.js"></script>
+    <script type="text/javascript" src="js/fs.js"></script>
+    <script type="text/javascript" src="js/ide.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/ide.css" />
+</head>
+
+<body>
+    <div id="panels">
+        <div id="panelLeft" class="panel">
+            <div id="panelLeftLabel" class="label">
+                <span>Files</span>
+            </div>
+            <div class="buttonBar">
+                <span class="btn"><a onclick="return ide.newFile();">[New]</a></span>
+                <span class="btn localStorageButton"><a onclick="return ide.deleteFile();">[Delete]</a></span>
+                <span class="btn localStorageButton"><a onclick="return ide.saveFiles();">[Save]</a></span>
+            </div>
+            <br />
+            <div class="content">
+                <div id="fileList"></div>
+            </div>
+        </div>
+        <div id="panelMiddle" class="panel">
+            <div id="panelMiddleLabel" class="label">
+                <span>jjvm</span>
+            </div>
+            <div class="content">
+                <div id="buttonDiv">
+                    <span class="btn" id="btnRun"><a onclick="ide.runProgram();">[Run]</a></span>
+                    <span class="btn" id="btnDownload"><a onclick="ide.downloadFile();">[Download]</a></span>
+                    <span class="btn" id="btnCompile"><a onclick="ide.compile();">[compile]</a></span>
+                </div>
+                <div id="scrollableSource" class="scrollable">
+                    <div id="inputContainer" class="inputContainer">
+                        <label for="srcInput"></label>
+                        <textarea id="srcInput" oninput="ide.handleCodeInput(this);"
+                            class="inputArea inputBox">You really need to enable javascript or sth!</textarea>
+                    </div>
+                </div>
+                <div class="outputTabs">
+                    <div class="tabLabels">
+                        <a>Output</a>
+                        <span class="btn"><a onclick="return ide.clearPrintArea('#printArea');">[Clear]</a></span>
+                    </div>
+                    <div id="scrollablePrintArea" class="scrollable">
+                        <div id="printArea" class="outputText"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="panelRight" class="panel">
+            <div id="panelRightLabel" class="label">
+                <span>Debug</span>
+            </div>
+            <div class="buttonBar">
+                <span class="btn"><a onclick="ide.stepProgram();">[Step]</a></span>
+                <span class="btn"><a onclick="ide.stopProgram();">[Stop]</a></span>
+                <span class="btn"><a onclick="ide.clearPrintArea('#debugArea');">[Clear]</a></span>
+            </div>
+            <div class="content">
+                <div id="debugArea" class="outputText"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

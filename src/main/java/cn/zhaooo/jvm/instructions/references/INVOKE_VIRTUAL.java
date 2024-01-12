@@ -7,13 +7,9 @@ import cn.zhaooo.jvm.rdta.heap.constantpool.RunTimeConstantPool;
 import cn.zhaooo.jvm.rdta.heap.methodarea.Class;
 import cn.zhaooo.jvm.rdta.heap.methodarea.Method;
 import cn.zhaooo.jvm.rdta.heap.methodarea.Object;
-import cn.zhaooo.jvm.rdta.heap.methodarea.StringPool;
 import cn.zhaooo.jvm.rdta.heap.util.MethodLookup;
 import cn.zhaooo.jvm.rdta.jvmstack.Frame;
-import cn.zhaooo.jvm.rdta.jvmstack.OperandStack;
 import cn.zhaooo.jvm.tools.LogTool;
-
-import java.util.function.Consumer;
 
 /**
  * 调用对象实例方法
@@ -39,11 +35,17 @@ public class INVOKE_VIRTUAL extends Index16Instruction {
             // 但是它有一些静态字段，比如out，它是一个PrintStream类型的对象。
             // 所以当我们调用System.out.println时，我们实际上是调用了PrintStream类的println方法，这个方法是一个实例方法，所以需要用invokevirtual指令来调用。
             if ("println".equals(methodRef.getName())) {
-                LogTool.hackPrint(frame.getOperandStack(), methodRef.getDescriptor(), System.out::println);
+                StringBuilder out = frame.getThread().getOut();
+                LogTool.hackPrint(frame.getOperandStack(), methodRef.getDescriptor(), System.out::println, out == null ? null : out::append);
+                // 出栈this引用
+                frame.getOperandStack().popRef();
                 return;
             }
             if ("print".equals(methodRef.getName())) {
-                LogTool.hackPrint(frame.getOperandStack(), methodRef.getDescriptor(), System.out::print);
+                StringBuilder out = frame.getThread().getOut();
+                LogTool.hackPrint(frame.getOperandStack(), methodRef.getDescriptor(), System.out::print, out == null ? null : out::append);
+                // 出栈this引用
+                frame.getOperandStack().popRef();
                 return;
             }
             throw new NullPointerException();

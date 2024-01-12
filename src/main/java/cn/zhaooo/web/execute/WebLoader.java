@@ -25,6 +25,7 @@ public class WebLoader extends ClassLoader {
         byteMap = new HashMap<>();
     }
 
+    @Override
     public Class loadClass(String className) {
         Class clazz = parent.loadClass(className);
         if (null != clazz) {

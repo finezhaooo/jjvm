@@ -15,6 +15,7 @@ import cn.zhaooo.jvm.rdta.jvmstack.Slot;
 
 import java.util.Arrays;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * @ClassName: LogTool
@@ -25,40 +26,50 @@ import java.util.function.Consumer;
 public class LogTool {
     // hack
     // 打印只支持基本类型和String
-    public static void hackPrint(OperandStack stack, String descriptor, Consumer<java.lang.Object> function) {
+    public static void hackPrint(OperandStack stack, String descriptor, Consumer<java.lang.Object> sysOut, Function<java.lang.Object, java.lang.StringBuilder> strOut) {
         switch (descriptor) {
             case "(Z)V":
-                function.accept(stack.popInt() != 0);
+                boolean bVal = stack.popInt() != 0;
+                if (sysOut != null) sysOut.accept(bVal);
+                if (strOut != null) strOut.apply(bVal);
                 break;
             case "(C)V":
             case "(I)V":
             case "(B)V":
             case "(S)V":
-                function.accept(stack.popInt());
+                int iVal = stack.popInt();
+                if (sysOut != null) sysOut.accept(iVal);
+                if (strOut != null) strOut.apply(iVal);
                 break;
             case "(F)V":
-                function.accept(stack.popFloat());
+                float fVal = stack.popFloat();
+                if (sysOut != null) sysOut.accept(fVal);
+                if (strOut != null) strOut.apply(fVal);
                 break;
             case "(J)V":
-                function.accept(stack.popLong());
+                long lVal = stack.popLong();
+                if (sysOut != null) sysOut.accept(lVal);
+                if (strOut != null) strOut.apply(lVal);
                 break;
             case "(D)V":
-                function.accept(stack.popDouble());
+                double dVal = stack.popDouble();
+                if (sysOut != null) sysOut.accept(dVal);
+                if (strOut != null) strOut.apply(dVal);
                 break;
             case "(Ljava/lang/String;)V":
                 Object jStr = stack.popRef();
                 String goStr = StringPool.goString(jStr);
-                function.accept(goStr);
+                if (sysOut != null) sysOut.accept(goStr);
+                if (strOut != null) strOut.apply(goStr);
                 break;
             default:
-                function.accept(descriptor);
+                if (sysOut != null) sysOut.accept(descriptor);
+                if (strOut != null) strOut.apply(descriptor);
                 break;
         }
-        // 出栈this引用
-        stack.popRef();
     }
 
-    public static void logInstruction(Instruction instruction, Frame stackFrame) {
+    public static String logInstruction(Instruction instruction, Frame stackFrame) {
         int depth = stackFrame.getThread().getStack().getSize();
         Method curMethod = stackFrame.getMethod();
         String thisClassName = curMethod.getClazz().getName();
@@ -71,123 +82,127 @@ public class LogTool {
         for (int i = 0; i < depth; i++) {
             indent.append("  ");
         }
-        System.out.println(indent + thisClassName + "." + methodName + "() #" + pc + " -> " + instructionName);
-        printOperandStack(operandStack, indent.toString());
-        printLocalVars(localVars, indent.toString());
-        System.out.println();
+        return indent + thisClassName + "." + methodName + "() #" + pc + " -> " + instructionName + "\n" +
+                printOperandStack(operandStack, indent.toString()) +
+                printLocalVars(localVars, indent.toString()) +
+                System.lineSeparator();
     }
 
-    private static void printOperandStack(OperandStack operandStack, String indent) {
-        System.out.println(indent + "=====OperandStack=====");
+    private static String printOperandStack(OperandStack operandStack, String indent) {
+        StringBuilder opStack = new StringBuilder(indent + "=====OperandStack=====\n");
         int top = operandStack.getTop();
         for (int i = 0; i < operandStack.getSlots().length; i++) {
             Slot slot = operandStack.getSlots()[i];
             if (slot.ref != null) {
-                System.out.println(indent + slot.ref.getClazz().getName() + (i == top ? " <--" : ""));
+                opStack.append(indent).append(slot.ref.getClazz().getName()).append(i == top ? " <--" : "").append("\n");
             } else {
-                System.out.println(indent + slot.val + (i == top ? " <--" : ""));
+                opStack.append(indent).append(slot.val).append(i == top ? " <--" : "").append("\n");
             }
         }
         if (top == operandStack.getSlots().length) {
-            System.out.println(indent + " <--");
+            opStack.append(indent).append(" <--").append("\n");
         }
+        return opStack.toString();
     }
 
-    private static void printLocalVars(LocalVars localVars, String indent) {
-        System.out.println(indent + "=======LocalVars======");
+    private static String printLocalVars(LocalVars localVars, String indent) {
+        StringBuilder lacVars = new StringBuilder(indent + "=======LocalVars======\n");
         for (Slot slot : localVars.getSlots()) {
             if (slot.ref != null) {
-                System.out.println(indent + slot.ref.getClazz().getName());
+                lacVars.append(indent).append(slot.ref.getClazz().getName()).append("\n");
             } else {
-                System.out.println(indent + slot.val);
+                lacVars.append(indent).append(slot.val).append("\n");
             }
         }
+        return lacVars.toString();
     }
 
-    public static void printClassInfo(ClassFile cf) {
-        System.out.println("version: " + cf.getMajorVersion() + "." + cf.getMinorVersion());
-        System.out.println("constants count: " + cf.getConstantPool().getSize());
-        System.out.format("access flags: 0x%x\n", cf.getAccessFlags());
-        System.out.println("this class: " + cf.getClassName());
-        System.out.println("super class: " + cf.getSuperClassName());
-        System.out.println("interfaces: " + Arrays.toString(cf.getInterfaceNames()));
-        System.out.println("fields count: " + cf.getFields().length);
+    public static String printClassInfo(ClassFile cf) {
+        StringBuilder classInfo = new StringBuilder();
+        classInfo.append("version: ").append(cf.getMajorVersion()).append(".").append(cf.getMinorVersion()).append("\n");
+        classInfo.append("constants count: ").append(cf.getConstantPool().getSize()).append("\n");
+        classInfo.append("access flags: ").append(String.format("0x%x", cf.getAccessFlags())).append("\n");
+        classInfo.append("this class: ").append(cf.getClassName()).append("\n");
+        classInfo.append("super class: ").append(cf.getSuperClassName()).append("\n");
+        classInfo.append("interfaces: ").append(Arrays.toString(cf.getInterfaceNames())).append("\n");
+        classInfo.append("fields count: ").append(cf.getFields().length).append("\n");
         for (MemberInfo memberInfo : cf.getFields()) {
-            System.out.format("%s  %s\n", memberInfo.getName(), memberInfo.getDescriptor());
+            classInfo.append(memberInfo.getName()).append("  ").append(memberInfo.getDescriptor()).append("\n");
         }
-        System.out.println("methods count: " + cf.getMethods().length);
+        classInfo.append("methods count: ").append(cf.getMethods().length).append("\n");
         for (MemberInfo memberInfo : cf.getMethods()) {
-            System.out.format("%s  %s\n", memberInfo.getName(), memberInfo.getDescriptor());
+            classInfo.append(memberInfo.getName()).append("  ").append(memberInfo.getDescriptor()).append("\n");
         }
-        System.out.println("constant pool:");
+        classInfo.append("constant pool:").append("\n");
         // 从1开始,0是无效索引，表示不指向任何常量
         for (int i = 1; i < cf.getConstantPool().getSize(); i++) {
             ConstantInfo info = cf.getConstantPool().getConstantInfos()[i];
-            printConstantInfo(i, info);
+            classInfo.append(printConstantInfo(i, info)).append("\n");
         }
+
+        return classInfo.toString();
 
     }
 
-    static void printConstantInfo(int index, ConstantInfo info) {
+    static String printConstantInfo(int index, ConstantInfo info) {
         switch (info.getTag()) {
             case ConstantInfo.CONSTANT_CLASS:
                 ConstantClassInfo classInfo = (ConstantClassInfo) info;
-                System.out.println("#" + index + " = CONSTANT_CLASS\t\t#" + classInfo.getNameIdx());
-                break;
+                return ("#" + index + " = CONSTANT_CLASS\t\t#" + classInfo.getNameIdx());
+
             case ConstantInfo.CONSTANT_FIELDREF:
                 ConstantFieldrefInfo fieldrefInfo = (ConstantFieldrefInfo) info;
-                System.out.println("#" + index + " = CONSTANT_FIELDREF\t\t#" + fieldrefInfo.getClassIdx() + ".#" + fieldrefInfo.getNameAndTypeIdx());
-                break;
+                return ("#" + index + " = CONSTANT_FIELDREF\t\t#" + fieldrefInfo.getClassIdx() + ".#" + fieldrefInfo.getNameAndTypeIdx());
+
             case ConstantInfo.CONSTANT_METHODREF:
                 ConstantMethodrefInfo methodrefInfo = (ConstantMethodrefInfo) info;
-                System.out.println("#" + index + " = CONSTANT_METHODREF\t\t#" + methodrefInfo.getClassIdx() + ".#" + methodrefInfo.getNameAndTypeIdx());
-                break;
+                return ("#" + index + " = CONSTANT_METHODREF\t\t#" + methodrefInfo.getClassIdx() + ".#" + methodrefInfo.getNameAndTypeIdx());
+
             case ConstantInfo.CONSTANT_INTERFACE_METHODREF:
                 ConstantInterfaceMethodrefInfo interfaceMethodrefInfo = (ConstantInterfaceMethodrefInfo) info;
-                System.out.println("#" + index + " = CONSTANT_INTERFACE_METHODREF\t\t#" + interfaceMethodrefInfo.getClassIdx() + ".#" + interfaceMethodrefInfo.getNameAndTypeIdx());
-                break;
+                return ("#" + index + " = CONSTANT_INTERFACE_METHODREF\t\t#" + interfaceMethodrefInfo.getClassIdx() + ".#" + interfaceMethodrefInfo.getNameAndTypeIdx());
+
             case ConstantInfo.CONSTANT_STRING:
                 ConstantStringInfo stringInfo = (ConstantStringInfo) info;
-                System.out.println("#" + index + " = CONSTANT_STRING\t\t#" + stringInfo.getStrIdx());
-                break;
+                return ("#" + index + " = CONSTANT_STRING\t\t#" + stringInfo.getStrIdx());
+
             case ConstantInfo.CONSTANT_INTEGER:
                 ConstantIntegerInfo integerInfo = (ConstantIntegerInfo) info;
-                System.out.println("#" + index + " = CONSTANT_INTEGER\t\t" + integerInfo.getVal());
-                break;
+                return ("#" + index + " = CONSTANT_INTEGER\t\t" + integerInfo.getVal());
+
             case ConstantInfo.CONSTANT_FLOAT:
                 ConstantFloatInfo floatInfo = (ConstantFloatInfo) info;
-                System.out.println("#" + index + " = CONSTANT_FLOAT\t\t" + floatInfo.getVal());
-                break;
+                return ("#" + index + " = CONSTANT_FLOAT\t\t" + floatInfo.getVal());
+
             case ConstantInfo.CONSTANT_LONG:
                 ConstantLongInfo longInfo = (ConstantLongInfo) info;
-                System.out.println("#" + index + " = CONSTANT_LONG\t\t" + longInfo.getVal());
-                break;
+                return ("#" + index + " = CONSTANT_LONG\t\t" + longInfo.getVal());
+
             case ConstantInfo.CONSTANT_DOUBLE:
                 ConstantDoubleInfo doubleInfo = (ConstantDoubleInfo) info;
-                System.out.println("#" + index + " = CONSTANT_DOUBLE\t\t" + doubleInfo.getVal());
-                break;
+                return ("#" + index + " = CONSTANT_DOUBLE\t\t" + doubleInfo.getVal());
+
             case ConstantInfo.CONSTANT_NAME_AND_TYPE:
                 ConstantNameAndTypeInfo nameAndTypeInfo = (ConstantNameAndTypeInfo) info;
-                System.out.println("#" + index + " = CONSTANT_NAME_AND_TYPE\t\t#" + nameAndTypeInfo.getNameIdx() + ".#" + nameAndTypeInfo.getDescIdx());
-                break;
+                return ("#" + index + " = CONSTANT_NAME_AND_TYPE\t\t#" + nameAndTypeInfo.getNameIdx() + ".#" + nameAndTypeInfo.getDescIdx());
+
             case ConstantInfo.CONSTANT_UTF8:
                 ConstantUtf8Info utf8Info = (ConstantUtf8Info) info;
-                System.out.println("#" + index + " = CONSTANT_UTF8\t\t" + utf8Info.getStr());
-                break;
+                return ("#" + index + " = CONSTANT_UTF8\t\t" + utf8Info.getStr());
+
             case ConstantInfo.CONSTANT_METHOD_HANDLE:
                 ConstantMethodHandleInfo methodHandleInfo = (ConstantMethodHandleInfo) info;
-                System.out.println("#" + index + " = CONSTANT_METHOD_HANDLE\t\t" + methodHandleInfo.getReferenceKind() + ".#" + methodHandleInfo.getReferenceIdx());
-                break;
+                return ("#" + index + " = CONSTANT_METHOD_HANDLE\t\t" + methodHandleInfo.getReferenceKind() + ".#" + methodHandleInfo.getReferenceIdx());
+
             case ConstantInfo.CONSTANT_METHOD_TYPE:
                 ConstantMethodTypeInfo methodTypeInfo = (ConstantMethodTypeInfo) info;
-                System.out.println("#" + index + " = CONSTANT_METHOD_TYPE\t\t#" + methodTypeInfo.getDescriptorIdx());
-                break;
+                return ("#" + index + " = CONSTANT_METHOD_TYPE\t\t#" + methodTypeInfo.getDescriptorIdx());
+
             case ConstantInfo.CONSTANT_INVOKE_DYNAMIC:
                 ConstantInvokeDynamicInfo invokeDynamicInfo = (ConstantInvokeDynamicInfo) info;
-                System.out.println("#" + index + " = CONSTANT_INVOKE_DYNAMIC\t\t#" + invokeDynamicInfo.getBootstrapMethodAttrIdx() + ".#" + invokeDynamicInfo.getNameAndTypeIdx());
-                break;
+                return ("#" + index + " = CONSTANT_INVOKE_DYNAMIC\t\t#" + invokeDynamicInfo.getBootstrapMethodAttrIdx() + ".#" + invokeDynamicInfo.getNameAndTypeIdx());
             default:
-                System.out.println("Unknown ConstantInfo");
+                return ("Unknown ConstantInfo");
 
         }
     }

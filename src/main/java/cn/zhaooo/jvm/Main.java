@@ -34,9 +34,9 @@ public class Main {
         }
         // 打印类信息
         if (cmd.debug) {
-            LogTool.printClassInfo(mainClass.getClassFile());
+            System.out.println(LogTool.printClassInfo(mainClass.getClassFile()));
         }
-        new Interpreter(mainMethod, cmd.debug, cmd.mainClassAndArgs.subList(1, cmd.mainClassAndArgs.size()).toString());
+        new Interpreter(mainMethod, cmd.debug, cmd.mainClassAndArgs.subList(1, cmd.mainClassAndArgs.size()).toString(), null);
     }
 
     public static class VMConfig {

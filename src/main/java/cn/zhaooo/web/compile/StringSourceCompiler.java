@@ -17,7 +17,7 @@ import java.util.*;
 public class StringSourceCompiler {
     private static final JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 
-    public static Map<String, byte[]> compile(Map<String, String> source, DiagnosticCollector<JavaFileObject> compileCollector) {
+    public static Map<String, byte[]> compileAll(Map<String, String> source, DiagnosticCollector<JavaFileObject> compileCollector) {
         // 保存当前请求的所有源码文件
         Map<String, JavaFileObject> fileMap = new HashMap<>();
         JavaFileManager javaFileManager = new TmpJavaFileManager(compiler.getStandardFileManager(compileCollector, null, null), fileMap);
@@ -43,7 +43,7 @@ public class StringSourceCompiler {
      * 管理JavaFileObject对象的工具
      */
     public static class TmpJavaFileManager extends ForwardingJavaFileManager<JavaFileManager> {
-        Map<String, JavaFileObject> fileMap;
+        private final Map<String, JavaFileObject> fileMap;
 
         protected TmpJavaFileManager(JavaFileManager fileManager, Map<String, JavaFileObject> fileMap) {
             super(fileManager);

@@ -14,6 +14,7 @@ public class Thread {
 
     private int pc;         //  PC寄存器，线程私有
     private final JVMStack stack; //  Java虚拟机栈，线程私有
+    private StringBuilder out; // hack out
 
     public Thread() {
         this.stack = new JVMStack(1024);
@@ -50,7 +51,16 @@ public class Thread {
     public boolean isStackEmpty() {
         return stack.isEmpty();
     }
+
     public JVMStack getStack() {
         return stack;
+    }
+
+    public void setOut(StringBuilder out) {
+        this.out = out;
+    }
+
+    public StringBuilder getOut() {
+        return out;
     }
 }
