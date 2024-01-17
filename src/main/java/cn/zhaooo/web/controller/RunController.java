@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * @ClassName: RunController
@@ -18,11 +17,6 @@ import java.util.UUID;
 public class RunController {
     @Resource
     private ExecuteService service;
-
-    @GetMapping("/hello")
-    public String hello() {
-        return "hello";
-    }
 
     @PostMapping("/run")
     public String runCode(@RequestBody Map<String, String> source, @RequestParam("main") String mainName) {

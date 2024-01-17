@@ -1,4 +1,5 @@
 globalThis.ide = (function () {
+  // const baseUrl = "http://42.192.233.165:8080/";
   const baseUrl = "http://127.0.0.1:8080/";
   const updateEditorFileName = function (file) {
     let prefix = "";
