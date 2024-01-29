@@ -2,6 +2,7 @@ import cn.zhaooo.jvm.classfile.ClassFile;
 import cn.zhaooo.jvm.classfile.MemberInfo;
 import cn.zhaooo.jvm.classfile.constantInfo.ConstantInfo;
 import cn.zhaooo.jvm.classfile.constantInfo.impl.*;
+import cn.zhaooo.jvm.tools.LogTool;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,7 +17,7 @@ import java.util.Arrays;
  */
 public class ClassFileTest {
     public static void main(String[] args) {
-        File file = new File("C:\\Projects\\jvm\\jjvm\\target\\test-classes\\InnerClassTest$InnerClass.class"); // 替换为你实际的文件路径
+        File file = new File("C:\\Projects\\jvm\\jjvm\\target\\test-classes\\HelloWord.class"); // 替换为你实际的文件路径
         byte[] buffer = null;
         try (FileInputStream fis = new FileInputStream(file)) {
             buffer = new byte[(int) file.length()];
@@ -32,7 +33,8 @@ public class ClassFileTest {
             e.printStackTrace();
         }
         ClassFile classFile = new ClassFile(buffer);
-        printClassInfo(classFile);
+        // printClassInfo(classFile);
+        System.out.println(LogTool.printClassInfo(classFile));
     }
 
     static void printClassInfo(ClassFile cf) {

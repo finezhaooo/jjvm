@@ -4,7 +4,11 @@ import cn.zhaooo.jvm.classfile.ClassFile;
 import cn.zhaooo.jvm.classfile.MemberInfo;
 import cn.zhaooo.jvm.classfile.constantInfo.ConstantInfo;
 import cn.zhaooo.jvm.classfile.constantInfo.impl.*;
+import cn.zhaooo.jvm.instructions.Factory;
 import cn.zhaooo.jvm.instructions.base.Instruction;
+import cn.zhaooo.jvm.instructions.base.impl.Index16Instruction;
+import cn.zhaooo.jvm.instructions.base.impl.Index8Instruction;
+import cn.zhaooo.jvm.rdta.heap.constantpool.AccessFlags;
 import cn.zhaooo.jvm.rdta.heap.methodarea.Method;
 import cn.zhaooo.jvm.rdta.heap.methodarea.Object;
 import cn.zhaooo.jvm.rdta.heap.methodarea.StringPool;
@@ -121,27 +125,61 @@ public class LogTool {
         StringBuilder classInfo = new StringBuilder();
         classInfo.append("version: ").append(cf.getMajorVersion()).append(".").append(cf.getMinorVersion()).append("\n");
         classInfo.append("constants count: ").append(cf.getConstantPool().getSize()).append("\n");
-        classInfo.append("access flags: ").append(String.format("0x%x", cf.getAccessFlags())).append("\n");
+        classInfo.append("access flags: ").append(AccessFlags.getName(cf.getAccessFlags())).append("\n");
         classInfo.append("this class: ").append(cf.getClassName()).append("\n");
         classInfo.append("super class: ").append(cf.getSuperClassName()).append("\n");
         classInfo.append("interfaces: ").append(Arrays.toString(cf.getInterfaceNames())).append("\n");
         classInfo.append("fields count: ").append(cf.getFields().length).append("\n");
-        for (MemberInfo memberInfo : cf.getFields()) {
-            classInfo.append(memberInfo.getName()).append("  ").append(memberInfo.getDescriptor()).append("\n");
-        }
         classInfo.append("methods count: ").append(cf.getMethods().length).append("\n");
-        for (MemberInfo memberInfo : cf.getMethods()) {
-            classInfo.append(memberInfo.getName()).append("  ").append(memberInfo.getDescriptor()).append("\n");
-        }
         classInfo.append("constant pool:").append("\n");
         // 从1开始,0是无效索引，表示不指向任何常量
         for (int i = 1; i < cf.getConstantPool().getSize(); i++) {
             ConstantInfo info = cf.getConstantPool().getConstantInfos()[i];
-            classInfo.append(printConstantInfo(i, info)).append("\n");
+            classInfo.append("  ").append(printConstantInfo(i, info)).append("\n");
         }
-
+        classInfo.append("\n");
+        for (MemberInfo memberInfo : cf.getFields()) {
+            classInfo.append(printFiledInfo(memberInfo)).append("\n");
+        }
+        for (MemberInfo memberInfo : cf.getMethods()) {
+            classInfo.append(printMethodInfo(memberInfo)).append("\n");
+        }
         return classInfo.toString();
 
+    }
+
+    static String printFiledInfo(MemberInfo fieldInfo){
+        return "access flags: " + AccessFlags.getName(fieldInfo.getAccessFlags()) + "\n" +
+                "name: " + fieldInfo.getName() + "\n" +
+                "descriptor: " + fieldInfo.getDescriptor() + "\n";
+    }
+    static String printMethodInfo(MemberInfo methodInfo) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("access flags: ").append(AccessFlags.getName(methodInfo.getAccessFlags())).append("\n");
+        builder.append("name: ").append(methodInfo.getName()).append("\n");
+        builder.append("descriptor: ").append(methodInfo.getDescriptor()).append("\n");
+        builder.append("code: ").append("\n");
+        builder.append("  ").append("stack=").append(methodInfo.getCodeAttribute().getMaxStack())
+                .append(", locals=").append(methodInfo.getCodeAttribute().getMaxLocals())
+                .append("\n");
+        byte[] code = methodInfo.getCodeAttribute().getData();
+        for (int i = 0; i < code.length; i++) {
+            Instruction instruction = Factory.create(code[i]);
+            if (instruction == null) {
+                builder.append("  ").append(i).append(": ").append("Unsupported opcode ").append(LogTool.byteToHexString(new byte[]{code[i]})).append("\n");
+            } else if (instruction instanceof Index8Instruction) {
+                int index = code[++i] & 0xFF;
+                builder.append("  ").append(i).append(": ").append(instruction.getClass().getSimpleName()).append(" #").append(index).append("\n");
+            } else if (instruction instanceof Index16Instruction) {
+                int byte1 = code[++i] & 0xFF;
+                int byte2 = code[++i] & 0xFF;
+                int index = (byte1 << 8) | byte2;
+                builder.append("  ").append(i).append(": ").append(instruction.getClass().getSimpleName()).append(" #").append(index).append("\n");
+            } else {
+                builder.append("  ").append(i).append(": ").append(instruction.getClass().getSimpleName()).append("\n");
+            }
+        }
+        return builder.toString();
     }
 
     static String printConstantInfo(int index, ConstantInfo info) {
@@ -206,8 +244,6 @@ public class LogTool {
 
         }
     }
-
-    // TODO 方法字节码显示
 
     public static String byteToHexString(byte[] codes) {
         StringBuilder sb = new StringBuilder("0x");
